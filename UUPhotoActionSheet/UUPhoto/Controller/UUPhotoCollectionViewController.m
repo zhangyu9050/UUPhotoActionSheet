@@ -8,12 +8,13 @@
 
 #import "UUPhotoCollectionViewController.h"
 #import "UUPhoto-Import.h"
+#import "UUPhoto-Macros.h"
 
 @interface UUPhotoCollectionViewController() < UICollectionViewDelegate,
                                                UICollectionViewDataSource >
 
 @property (nonatomic, strong, getter = getCollectionView) UICollectionView *collectionView;
-
+@property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
 
 @end
 
@@ -23,6 +24,7 @@
     [super viewDidLoad];
     
     [self configUI];
+    [self configNavigationItem];
 }
 
 - (void)didReceiveMemoryWarning{
@@ -35,7 +37,26 @@
 - (void)configUI{
     
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.toolBarView];
 }
+
+- (void)configNavigationItem{
+    
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.tintColor   = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle    = UIBarStyleBlackTranslucent;
+    
+    
+    self.navigationItem.title = @"相册";
+    UIBarButtonItem *barCancel = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                                  style:UIBarButtonItemStylePlain
+                                                                 target:self
+                                                                 action:@selector(onClickCancel:)];
+    
+    self.navigationItem.rightBarButtonItem = barCancel;
+    
+}
+
 
 #pragma mark - UICollectionView DataSource
 
@@ -57,14 +78,31 @@
     
     [cell setContentWithIndexPath:indexPath];
     
-    cell.tag = indexPath.item;
-    
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-//    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+}
+
+#pragma mark - Event Response
+
+- (void)onClickCancel:(id)sender{
+    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+
+- (void)onClickPreview:(id)sender{
+
+    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+}
+
+- (void)onClickSend:(id)sender{
+    
+    
 }
 
 #pragma mark - Private Method
@@ -100,13 +138,12 @@
         flowLayout.itemSize = CGSizeMake(size, size);
         flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
         
-        _collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:flowLayout];
+        CGRect frame = CGRectMake(0, 0, ScreenWidth, CGRectGetHeight(self.view.frame) -50);
+        _collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:flowLayout];
         _collectionView.backgroundColor = [UIColor whiteColor];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        
-        //        _collectionView.backgroundColor = COLOR_WITH_RGB(235,235,235,1);
-        
+
         [_collectionView registerClass:[UUThumbnailCollectionCell class]
             forCellWithReuseIdentifier:[UUThumbnailCollectionCell cellReuseIdentifier]];
         
@@ -124,6 +161,24 @@
     }
     
     return _collectionView;
+}
+
+- (UUToolBarView *)getToolBarView{
+
+    if (!_toolBarView) {
+        
+        CGRect frame = CGRectMake(0, CGRectGetHeight(self.view.frame) -50, ScreenWidth, 50);
+        _toolBarView = [[UUToolBarView alloc] initWithFrame:frame];
+        [_toolBarView addPreviewTarget:self action:@selector(onClickPreview:)];
+        [_toolBarView addSendTarget:self action:@selector(onClickSend:)];
+        
+        _toolBarView.backgroundColor = COLOR_WITH_RGB(250,250,250,1);
+        
+        _toolBarView.layer.borderWidth = 1;
+        _toolBarView.layer.borderColor = COLOR_WITH_RGB(224,224,224,1).CGColor;
+    }
+    
+    return _toolBarView;
 }
 
 @end

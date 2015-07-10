@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>7A79001A-4C3B-4121-A326-E2A90A35786B</string>
+	<key>IDESourceControlProjectName</key>
+	<string>UUPhotoActionSheet</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>6FB8C7E28ED0A45642050AA80FC2C8E1B1631176</key>
+		<string>https://github.com/zhangyu9050/UUPhotoActionSheet.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>UUPhotoActionSheet.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>6FB8C7E28ED0A45642050AA80FC2C8E1B1631176</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/zhangyu9050/UUPhotoActionSheet.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>6FB8C7E28ED0A45642050AA80FC2C8E1B1631176</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>6FB8C7E28ED0A45642050AA80FC2C8E1B1631176</string>
+			<key>IDESourceControlWCCName</key>
+			<string>UUPhotoActionSheet</string>
+		</dict>
+	</array>
+</dict>
+</plist>

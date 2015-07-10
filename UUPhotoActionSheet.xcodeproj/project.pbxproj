@@ -33,6 +33,7 @@
 		2A37EDA71B4FFDB20083B5FE /* UUPhotoGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37EDA61B4FFDB20083B5FE /* UUPhotoGroupViewController.m */; };
 		2A37EDAA1B5003430083B5FE /* UUPhotoBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37EDA91B5003430083B5FE /* UUPhotoBrowserViewController.m */; };
 		2A37EDAD1B5003670083B5FE /* UUZoomingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37EDAC1B5003670083B5FE /* UUZoomingScrollView.m */; };
+		2A37EDB01B500CE20083B5FE /* UUToolBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37EDAF1B500CE20083B5FE /* UUToolBarView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -89,6 +90,8 @@
 		2A37EDA91B5003430083B5FE /* UUPhotoBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUPhotoBrowserViewController.m; sourceTree = "<group>"; };
 		2A37EDAB1B5003670083B5FE /* UUZoomingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUZoomingScrollView.h; sourceTree = "<group>"; };
 		2A37EDAC1B5003670083B5FE /* UUZoomingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUZoomingScrollView.m; sourceTree = "<group>"; };
+		2A37EDAE1B500CE20083B5FE /* UUToolBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UUToolBarView.h; sourceTree = "<group>"; };
+		2A37EDAF1B500CE20083B5FE /* UUToolBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UUToolBarView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +253,8 @@
 				2A37ED9D1B4FED790083B5FE /* UUThumbnailCollectionCell.m */,
 				2A37EDAB1B5003670083B5FE /* UUZoomingScrollView.h */,
 				2A37EDAC1B5003670083B5FE /* UUZoomingScrollView.m */,
+				2A37EDAE1B500CE20083B5FE /* UUToolBarView.h */,
+				2A37EDAF1B500CE20083B5FE /* UUToolBarView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -373,6 +378,7 @@
 				2A37ED841B4FDE7B0083B5FE /* UUPhotoActionSheet.m in Sources */,
 				2A37EDAD1B5003670083B5FE /* UUZoomingScrollView.m in Sources */,
 				2A37EDAA1B5003430083B5FE /* UUPhotoBrowserViewController.m in Sources */,
+				2A37EDB01B500CE20083B5FE /* UUToolBarView.m in Sources */,
 				2A37EDA41B4FFB7E0083B5FE /* DemoViewController.m in Sources */,
 				2A37ED501B4FDD8A0083B5FE /* main.m in Sources */,
 				2A37ED981B4FE94A0083B5FE /* UUThumbnailView.m in Sources */,

@@ -32,10 +32,6 @@
     
 }
 
-- (void)updateConstraint{
-    
-}
-
 #pragma mark - Delegate
 
 #pragma mark - Custom Deledate

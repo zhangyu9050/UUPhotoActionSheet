@@ -23,6 +23,7 @@
     // Do any additional setup after loading the view, typically from a nib.
     
     [self configUI];
+    [self configNavigationItem];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -34,17 +35,6 @@
 
 - (void)configUI{
     
-    self.navigationController.navigationBar.translucent = YES;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    self.navigationItem.title = @"相册";
-    UIBarButtonItem *cancel = [[UIBarButtonItem alloc] initWithTitle:@"取消"
-                                                               style:UIBarButtonItemStylePlain
-                                                              target:self
-                                                              action:@selector(onClickCancel:)];
-    
-    self.navigationItem.rightBarButtonItem = cancel;
     
     [self.view addSubview:self.tableView];
     
@@ -55,6 +45,23 @@
         [UUAssetManager sharedInstance].currentGroupIndex = 0;
         [self.navigationController pushViewController:UUPhotoCollectionViewController.new animated:NO];
     }];
+}
+
+- (void)configNavigationItem{
+
+    self.navigationController.navigationBar.translucent = YES;
+    self.navigationController.navigationBar.tintColor   = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle    = UIBarStyleBlackTranslucent;
+    
+    
+    self.navigationItem.title = @"相册";
+    UIBarButtonItem *barCancel = [[UIBarButtonItem alloc] initWithTitle:@"取消"
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(onClickCancel:)];
+    
+    self.navigationItem.rightBarButtonItem = barCancel;
+
 }
 
 #pragma mark - UITableView DataSource
@@ -104,7 +111,9 @@
 
 - (void)onClickCancel:(id)sender{
     
-//    [(JFImagePickerController *)self.navigationController cancel];
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 #pragma mark - Public Methods

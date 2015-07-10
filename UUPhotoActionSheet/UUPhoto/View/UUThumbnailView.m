@@ -55,19 +55,14 @@
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:[UUThumbnailCollectionCell cellReuseIdentifier]
                                                      forIndexPath:indexPath];
     
-    cell.layer.borderWidth = 2;
-    cell.layer.backgroundColor = [UIColor greenColor].CGColor;
-
     [cell setContentWithIndexPath:indexPath];
-//
-//    cell.tag = indexPath.item;
     
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-//    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+    
 }
 
 
@@ -91,15 +86,12 @@
         flowLayout.sectionInset = UIEdgeInsetsMake(10.0f, 4.0f, 10.0f, 4.0f);
 
         flowLayout.itemSize = CGSizeMake(105, 180);
-//        flowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
         
         _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
         _collectionView.backgroundColor = COLOR_WITH_RGB(230,231,234,1);
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        
-        //        _collectionView.backgroundColor = COLOR_WITH_RGB(235,235,235,1);
-        
+
         [_collectionView registerClass:[UUThumbnailCollectionCell class]
             forCellWithReuseIdentifier:[UUThumbnailCollectionCell cellReuseIdentifier]];
         

@@ -10,6 +10,7 @@
 #define UUPhotoActionSheet_UUPhoto_Import_h
 
 //View
+#import "UUToolBarView.h"
 #import "UUThumbnailView.h"
 #import "UUPhotoActionSheet.h"
 #import "UUZoomingScrollView.h"

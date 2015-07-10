@@ -10,4 +10,8 @@
 
 @interface UUZoomingScrollView : UIScrollView
 
+- (void)displayImage:(UIImage *)img;
+
+- (void)prepareForReuse;
+
 @end

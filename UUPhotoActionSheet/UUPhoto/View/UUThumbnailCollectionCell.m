@@ -14,6 +14,7 @@
 @property (nonatomic, strong, getter = getImageThumbnails) UIImageView *imgThumbnails;
 @property (nonatomic, strong, getter = getImageSelected) UIImageView *imgSelected;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, assign) BOOL isCheckSelected;
 
 @end
@@ -44,6 +45,33 @@
 
 #pragma mark - Event Response
 
+- (void)handleSingleTap:(UITapGestureRecognizer *)gesture{
+    
+    CGPoint location = [gesture locationInView:self];
+    
+    if ([self isContainsPointWithPoint:location]) {
+        
+        if (!_isCheckSelected && [UUAssetManager sharedInstance].selectdPhotos.count >= 9) return;
+        
+        if (!_isCheckSelected) {
+            
+            [[UUAssetManager sharedInstance] addObjectWithIndex:_indexPath.row];
+            
+            [self setIsCheckSelected:YES];
+            
+        }else{
+            
+            
+            [[UUAssetManager sharedInstance] removeObjectWithIndex:_indexPath.row];
+            
+            [self setIsCheckSelected:NO];
+        }
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"selectdPhotos" object:nil];
+        
+    }
+}
+
 #pragma mark - Public Methods
 
 + (NSString *)cellReuseIdentifier{
@@ -53,10 +81,35 @@
 
 - (void)setContentWithIndexPath:(NSIndexPath *)indexPath{
 
+    _indexPath = indexPath;
+    
     self.imgThumbnails.image = [[UUAssetManager sharedInstance] getImageAtIndex:indexPath.row type:1];
+    
+    NSIndexPath *groupIndex = [NSIndexPath indexPathForRow:indexPath.row inSection:[UUAssetManager sharedInstance].currentGroupIndex];
+    for (UUWaitImage *obj in [UUAssetManager sharedInstance].selectdPhotos) {
+        
+        if (groupIndex.row == obj.indexPath.row && groupIndex.section == obj.indexPath.section) {
+            
+            [self setIsCheckSelected:YES];
+            return;
+        }
+    }
+    
+    [self setIsCheckSelected:NO];
+
 }
 
 #pragma mark - Private Methods
+
+- (BOOL )isContainsPointWithPoint:(CGPoint )location{
+    
+    CGFloat x = CGRectGetMinX(_imgSelected.frame)   -5;
+    CGFloat y = CGRectGetMinY(_imgSelected.frame)   -5;
+    CGFloat w = CGRectGetWidth(_imgSelected.frame)  +10;
+    CGFloat h = CGRectGetHeight(_imgSelected.frame) +10;
+    
+    return CGRectContainsPoint(CGRectMake(x, y, w, h), location);
+}
 
 - (void)setIsCheckSelected:(BOOL)isCheckSelected{
     
@@ -110,6 +163,11 @@
         _imgSelected.layer.cornerRadius = 13;
         _imgSelected.layer.borderWidth = 1;
         _imgSelected.layer.masksToBounds = YES;
+        
+        UITapGestureRecognizer* singleRecognizer;
+        singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
+        
+        [_imgSelected addGestureRecognizer:singleRecognizer];
         
     }
     
