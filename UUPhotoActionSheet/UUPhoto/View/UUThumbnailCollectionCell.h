@@ -13,5 +13,5 @@
 + (NSString *)cellReuseIdentifier;
 
 - (void)setContentWithIndexPath:(NSIndexPath *)indexPath;
-
+- (void)setContentSelected;
 @end

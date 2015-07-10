@@ -62,6 +62,9 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    UUThumbnailCollectionCell *cell;
+    cell = (UUThumbnailCollectionCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    [cell setContentSelected];
     
 }
 

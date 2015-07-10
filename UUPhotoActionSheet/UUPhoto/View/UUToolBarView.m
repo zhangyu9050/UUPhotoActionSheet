@@ -43,6 +43,8 @@
                                              selector:@selector(notificationUpdateSelected:)
                                                  name:kNotificationUpdateSelected
                                                object:nil];
+    
+    [self notificationUpdateSelected:nil];
 }
 
 - (void)dealloc{
