@@ -63,7 +63,13 @@
 
 - (void)onClickCamera:(id)sender{
 
-    
+//    UINavigationController *naviController;
+//    naviController = [[UINavigationController alloc] initWithRootViewController:UUPhotoBrowserViewController.new];
+//    
+//    [_weakSuper presentViewController:naviController animated:YES completion:^{
+//        
+//    }];
+
 }
 
 - (void)onClickAlbum:(id)sender{
@@ -127,7 +133,7 @@
         [_btnCamera setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
         _btnCamera.backgroundColor = [UIColor whiteColor];
         
-        [_btnAlbum addTarget:self action:@selector(onClickCamera:) forControlEvents:UIControlEventTouchUpInside];
+        [_btnCamera addTarget:self action:@selector(onClickCamera:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _btnCamera;

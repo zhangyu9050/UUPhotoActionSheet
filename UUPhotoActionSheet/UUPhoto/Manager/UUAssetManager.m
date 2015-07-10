@@ -8,6 +8,7 @@
 
 #import "UUAssetManager.h"
 #import "UUPhoto-Macros.h"
+#import "UUPhoto-Import.h"
 
 @interface UUAssetManager()
 
@@ -346,6 +347,8 @@ SHARED_SERVICE(UUAssetManager);
     model.waitAsset = _assetPhotos[index];
     
     [_selectdPhotos addObject:model];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUpdateSelected object:nil];
 }
 
 - (void)removeObjectWithIndex:(NSInteger )index{
@@ -355,9 +358,12 @@ SHARED_SERVICE(UUAssetManager);
         if (index == obj.indexPath.row && obj.indexPath.section == _currentGroupIndex) {
             
             [_selectdPhotos removeObject:obj];
+            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUpdateSelected object:nil];
             return;
         }
     }
+    
+    
 }
 
 @end

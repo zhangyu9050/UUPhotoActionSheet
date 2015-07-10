@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#define kNotificationUpdateSelected @"NotificationUpdateSelected"
+
 @interface UUToolBarView : UIView
 
 - (void)addSendTarget:(id)target action:(SEL)action;

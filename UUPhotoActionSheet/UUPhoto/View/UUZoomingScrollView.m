@@ -7,7 +7,7 @@
 //
 
 #import "UUZoomingScrollView.h"
-
+#import "UUPhoto-Macros.h"
 
 @interface UUZoomingScrollView() < UIScrollViewDelegate >
 
@@ -29,6 +29,9 @@
 
 - (void)configUI{
     
+    self.layer.borderWidth = 2;
+    self.layer.borderColor = [UIColor redColor].CGColor;
+    
     self.backgroundColor = [UIColor blackColor];
     self.delegate = self;
     self.showsHorizontalScrollIndicator = NO;
@@ -37,37 +40,43 @@
     self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
     [self addSubview:self.imgPhoto];
-    
+    self.scrollEnabled = NO;
 }
 
 - (void)displayImage:(UIImage *)img{
     
-    // Reset
-    self.maximumZoomScale = 1;
-    self.minimumZoomScale = 1;
-    self.zoomScale = 1;
-    self.contentSize = CGSizeMake(0, 0);
+    if (_imgPhoto.image == nil) {
+        
+        // Reset
+        self.maximumZoomScale = 1;
+        self.minimumZoomScale = 1;
+        self.zoomScale = 1;
+        self.contentSize = CGSizeMake(0, 0);
+        
+        // Get image from browser as it handles ordering of fetching
+        
+        if (img) {
+            
+            
+            // Set image
+            _imgPhoto.image = img;
+            
+            // Setup photo frame
+            CGRect photoImageViewFrame;
+            photoImageViewFrame.origin = CGPointZero;
+            photoImageViewFrame.size = img.size;
+            _imgPhoto.frame = photoImageViewFrame;
+            self.contentSize = photoImageViewFrame.size;
+            
+            // Set zoom to minimum zoom
+            [self setMaxMinZoomScalesForCurrentBounds];
+            
+        }
     
-    // Get image from browser as it handles ordering of fetching
-    
-    if (img) {
-        
-        
-        // Set image
-        _imgPhoto.image = img;
-        
-        // Setup photo frame
-        CGRect photoImageViewFrame;
-        photoImageViewFrame.origin = CGPointZero;
-        photoImageViewFrame.size = img.size;
-        _imgPhoto.frame = photoImageViewFrame;
-        self.contentSize = photoImageViewFrame.size;
-        
-        // Set zoom to minimum zoom
-        [self setMaxMinZoomScalesForCurrentBounds];
-        
+        [self setNeedsLayout];
     }
-    [self setNeedsLayout];
+    
+    
 }
 
 #pragma mark - Private Modeh
@@ -126,10 +135,6 @@
     
     // Calculate Max
     CGFloat maxScale = 3;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        // Let them go a bit bigger on a bigger screen!
-        maxScale = 4;
-    }
     
     // Image is smaller than screen so no zooming!
     if (xScale >= 1 && yScale >= 1) {
@@ -160,6 +165,7 @@
 - (void)prepareForReuse{
     
     _imgPhoto.image = nil;
+    self.tag = NSUIntegerMax;
 }
 
 - (CGFloat)initialZoomScaleWithMinScale {
@@ -180,6 +186,19 @@
         }
     }
     return zoomScale;
+}
+
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    return _imgPhoto;
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    self.scrollEnabled = YES; // reset
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
 #pragma mark - Getters And Setters
