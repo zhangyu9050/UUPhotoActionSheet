@@ -18,8 +18,6 @@
 @interface UUAssetManager : NSObject
 
 @property (nonatomic, assign) NSInteger currentGroupIndex;
-@property (nonatomic, assign) NSInteger previewIndex;
-@property (nonatomic, assign) BOOL      bReverse;
 
 @property (nonatomic, strong) NSMutableArray  *assetPhotos;
 @property (nonatomic, strong) NSMutableArray  *selectdPhotos;

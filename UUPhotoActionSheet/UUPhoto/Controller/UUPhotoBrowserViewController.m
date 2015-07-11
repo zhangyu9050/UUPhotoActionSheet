@@ -68,6 +68,8 @@
     page.tag = index;
     page.frame = [self frameForPageAtIndex:index];
     [page displayImage:[self displayImageWithIndex:index]];
+    
+    [self isSelectedPhotoWithIndex:index];
 }
 
 #pragma mark - UIScrollView Delegate
@@ -117,6 +119,21 @@
 
 #pragma mark - Custom Deledate
 
+- (void)isSelectedPhotoWithIndex:(NSInteger )index{
+
+    if (_delegate && [_delegate respondsToSelector:@selector(isSelectedPhotosWithIndex:fromPhotoBrowser:)]) {
+        
+        if ([_delegate isSelectedPhotosWithIndex:index fromPhotoBrowser:self]){
+        
+            [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
+            
+        }else{
+        
+            [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+        }
+    }
+}
+
 - (NSInteger )currentPage{
 
     if (_delegate && [_delegate respondsToSelector:@selector(currentIndexFromPhotoBrowser:)]) {
@@ -149,6 +166,11 @@
 
 
 #pragma mark - Event Response
+
+- (void)onClickSelected:(id)sender{
+
+    
+}
 
 - (void)onClickImageBrowser:(UIGestureRecognizer *)gesture{
     
@@ -278,7 +300,8 @@
         
         _btnSelected = [UIButton buttonWithType:UIButtonTypeCustom];
         _btnSelected.frame = CGRectMake(0, 0, 25, 25);
-        [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
+        [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+        [_btnSelected addTarget:self action:@selector(onClickSelected:) forControlEvents:UIControlEventTouchUpInside];
 
     }
     

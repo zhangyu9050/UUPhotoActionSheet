@@ -99,10 +99,9 @@
             forCellWithReuseIdentifier:[UUThumbnailCollectionCell cellReuseIdentifier]];
         
         
-        [UUAssetManager sharedInstance].currentGroupIndex = 0;
         [[UUAssetManager sharedInstance] getGroupList:^(NSArray *obj) {
         
-            [[UUAssetManager sharedInstance] getPhotoListOfGroupByIndex:[UUAssetManager sharedInstance].currentGroupIndex result:^(NSArray *r) {
+            [[UUAssetManager sharedInstance] getPhotoListOfGroupByIndex:[UUAssetManager sharedInstance].currentGroupIndex result:^(NSArray *obj) {
                 
                 [_collectionView reloadData];
                 

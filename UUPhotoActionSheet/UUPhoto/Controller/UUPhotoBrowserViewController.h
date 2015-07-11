@@ -13,8 +13,11 @@
 @protocol UUPhotoBrowserDelegate < NSObject >
 
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+- (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
 - (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
 
 @optional
 

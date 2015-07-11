@@ -107,6 +107,22 @@
     return [UUAssetManager sharedInstance].assetPhotos.count;
 }
 
+- (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+
+    NSIndexPath *groupIndex = [NSIndexPath indexPathForRow:index
+                                                 inSection:[UUAssetManager sharedInstance].currentGroupIndex];
+    
+    for (UUWaitImage *obj in [UUAssetManager sharedInstance].selectdPhotos) {
+        
+        if (groupIndex.row == obj.indexPath.row && groupIndex.section == obj.indexPath.section) {
+
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
     return _currentPage;
@@ -180,11 +196,11 @@
         [[UUAssetManager sharedInstance] getPhotoListOfGroupByIndex:[UUAssetManager sharedInstance].currentGroupIndex result:^(NSArray *r) {
 //            [[UUImageManager sharedInstance] startCahcePhotoThumbWithSize:CGSizeMake(size, size)];
             [_collectionView reloadData];
-            if ([UUAssetManager sharedInstance].previewIndex>=0) {
+//            if ([UUAssetManager sharedInstance].previewIndex>=0) {
                 //                JFPhotoBrowserViewController *photoBrowser = [[JFPhotoBrowserViewController alloc] initWithPreview];
                 //                photoBrowser.delegate = self.navigationController;
                 //                [self.navigationController pushViewController:photoBrowser animated:YES];
-            }
+//            }
             
             [self scrollToSelectedItem];
         }];
