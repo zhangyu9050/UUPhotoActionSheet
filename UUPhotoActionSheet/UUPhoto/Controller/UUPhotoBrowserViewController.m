@@ -19,21 +19,11 @@
 
 @property (nonatomic, strong, getter = getRootScrollView) UIScrollView *rootScroller;
 @property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
-@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, strong, getter = getButtonSelected) UIButton *btnSelected;
 
 @end
 
 @implementation UUPhotoBrowserViewController
-
-- (instancetype)initWithJumpToPage:(NSInteger )index{
-
-    if (self = [super init]) {
-     
-        _currentPage = index;
-    }
-    
-    return self;
-}
 
 - (void)viewDidLoad{
     
@@ -45,6 +35,7 @@
     _recycledPages = [[NSMutableSet alloc] init];
     
     [self configUI];
+    [self configBarButtonItem];
 }
 
 - (void)didReceiveMemoryWarning{
@@ -63,21 +54,33 @@
     [self.view addSubview:self.rootScroller];
     [self.view addSubview:self.toolBarView];
     
-    [self jumpToPageAtIndex:_currentPage animated:NO];
+    [self jumpToPageAtIndex:[self currentPage] animated:NO];
+}
+
+- (void)configBarButtonItem{
+
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:self.btnSelected];
+    self.navigationItem.rightBarButtonItem = barButton;
+}
+
+- (void)configurePage:(UUZoomingScrollView *)page forIndex:(NSUInteger)index {
+    
+    page.tag = index;
+    page.frame = [self frameForPageAtIndex:index];
+    [page displayImage:[self displayImageWithIndex:index]];
 }
 
 #pragma mark - UIScrollView Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    NSInteger numberOfPhotos = [UUAssetManager sharedInstance].assetPhotos.count;
     CGRect visibleBounds = _rootScroller.bounds;
     NSInteger iFirstIndex = (NSInteger)floorf((CGRectGetMinX(visibleBounds)+PADDING*2) / CGRectGetWidth(visibleBounds));
     NSInteger iLastIndex  = (NSInteger)floorf((CGRectGetMaxX(visibleBounds)-PADDING*2-1) / CGRectGetWidth(visibleBounds));
     if (iFirstIndex < 0) iFirstIndex = 0;
-    if (iFirstIndex > numberOfPhotos - 1) iFirstIndex = numberOfPhotos - 1;
+    if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
     if (iLastIndex < 0) iLastIndex = 0;
-    if (iLastIndex > numberOfPhotos - 1) iLastIndex = numberOfPhotos - 1;
+    if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
     
     NSInteger pageIndex;
     for (UUZoomingScrollView *page in _visiblePages) {
@@ -112,15 +115,50 @@
     }
 }
 
-- (void)onClickImageBrowser:(UIGestureRecognizer *)gesture{
+#pragma mark - Custom Deledate
 
+- (NSInteger )currentPage{
+
+    if (_delegate && [_delegate respondsToSelector:@selector(currentIndexFromPhotoBrowser:)]) {
+        
+        return [_delegate currentIndexFromPhotoBrowser:self];
+    }
+    
+    return 0;
+}
+
+- (NSInteger )numberOfPhotos{
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(numberOfPhotosFromPhotoBrowser:)]) {
+        
+        return [_delegate numberOfPhotosFromPhotoBrowser:self];
+    }
+    
+    return 0;
+}
+
+- (UIImage *)displayImageWithIndex:(NSInteger )index{
+
+    if (_delegate && [_delegate respondsToSelector:@selector(displayImageWithIndex:fromPhotoBrowser:)]) {
+        
+        return [_delegate displayImageWithIndex:index fromPhotoBrowser:self];
+    }
+    
+    return nil;
+}
+
+
+#pragma mark - Event Response
+
+- (void)onClickImageBrowser:(UIGestureRecognizer *)gesture{
+    
     [self setHideNavigationBar];
 }
 
 #pragma mark - Private Methods
 
 - (void)setHideNavigationBar{
-
+    
     CGRect frame = _toolBarView.frame;
     if (self.navigationController.navigationBarHidden) {
         
@@ -152,9 +190,7 @@
         CGRect pageFrame = [self frameForPageAtIndex:index];
         [_rootScroller setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:animated];
     }
-    
 }
-
 
 - (UUZoomingScrollView *)dequeueRecycledPage {
     
@@ -164,22 +200,17 @@
     return page;
 }
 
-- (void)configurePage:(UUZoomingScrollView *)page forIndex:(NSUInteger)index {
-    
-    page.tag = index;
-    page.frame = [self frameForPageAtIndex:index];
-    [page displayImage:[[UUAssetManager sharedInstance] getImageAtIndex:index type:2]];
-}
-
 - (BOOL)isDisplayingPageForIndex:(NSUInteger)index {
     
     for (UUZoomingScrollView *page in _visiblePages){
-    
+        
         if (page.tag == index) return YES;
     }
     
     return NO;
 }
+
+
 
 - (CGRect)frameForPageAtIndex:(NSUInteger)index {
     
@@ -198,12 +229,12 @@
     return CGRectIntegral(frame);
 }
 
+
 - (CGSize)contentSizeForPagingScrollView {
     
     CGRect bounds = _rootScroller.bounds;
     return CGSizeMake(bounds.size.width * [UUAssetManager sharedInstance].assetPhotos.count, 0);
 }
-
 
 #pragma mark - Getters And Setters
 
@@ -239,6 +270,19 @@
     }
     
     return _toolBarView;
+}
+
+- (UIButton *)getButtonSelected{
+
+    if (!_btnSelected) {
+        
+        _btnSelected = [UIButton buttonWithType:UIButtonTypeCustom];
+        _btnSelected.frame = CGRectMake(0, 0, 25, 25);
+        [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
+
+    }
+    
+    return _btnSelected;
 }
 
 @end

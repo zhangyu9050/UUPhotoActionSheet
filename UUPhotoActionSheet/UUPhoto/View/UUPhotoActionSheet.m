@@ -44,6 +44,7 @@
 
 - (void)configUI{
     
+    self.alpha = 0;
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     
     [self addSubview:self.sheetView];
@@ -113,29 +114,38 @@
     [self cancelAnimation];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+    [self cancelAnimation];
+}
+
 #pragma mark - Public Methods
+
+- (void)showAnimation{
+    
+    CGRect frame = _sheetView.frame;
+    frame.origin.y = ScreenHeight -350;
+    [UIView animateWithDuration:.25f animations:^{
+        
+        _sheetView.frame = frame;
+        self.alpha = 1;
+    }];
+}
+
 
 #pragma mark - Private Methods
 
 - (void)cancelAnimation{
 
-    CGRect frame = self.frame;
+    CGRect frame = _sheetView.frame;
     frame.origin.y = ScreenHeight;
     [UIView animateWithDuration:.25f animations:^{
         
-        self.frame = frame;
+        _sheetView.frame = frame;
+        self.alpha = 0;
     }];
 }
 
-- (void)showAnimation{
-    
-    CGRect frame = self.frame;
-    frame.origin.y = 0;
-    [UIView animateWithDuration:.25f animations:^{
-        
-        self.frame = frame;
-    }];
-}
 
 #pragma mark - Getters And Setters
 
@@ -143,7 +153,7 @@
 
     if (!_sheetView) {
         
-        CGRect frame = CGRectMake(0, ScreenHeight -350, ScreenWidth, 350);
+        CGRect frame = CGRectMake(0, ScreenHeight, ScreenWidth, 350);
         _sheetView = [[UIView alloc] initWithFrame:frame];
         _sheetView.backgroundColor = COLOR_WITH_RGB(230,231,234,1);
         

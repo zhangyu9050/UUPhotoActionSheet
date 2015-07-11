@@ -206,6 +206,8 @@
     [_singleTap addTarget:target action:action];
 }
 
+#pragma mark - Private Methods
+
 #pragma mark - Getters And Setters
 
 - (UIImageView *)getImagePhoto{

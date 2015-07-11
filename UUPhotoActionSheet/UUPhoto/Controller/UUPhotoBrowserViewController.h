@@ -7,9 +7,27 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AssetsLibrary/AssetsLibrary.h>
+
+@class UUPhotoBrowserViewController;
+@protocol UUPhotoBrowserDelegate < NSObject >
+
+- (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+- (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+- (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
+@optional
+
+- (void)photoBrowser:(UUPhotoBrowserViewController *)browser didShowPage:(NSInteger)page;
+
+
+@end
 
 @interface UUPhotoBrowserViewController : UIViewController
 
-- (instancetype)initWithJumpToPage:(NSInteger )index;
+@property (nonatomic, weak) id<UUPhotoBrowserDelegate> delegate;
 
 @end
+
+
+

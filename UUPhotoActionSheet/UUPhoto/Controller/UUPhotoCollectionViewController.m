@@ -11,10 +11,13 @@
 #import "UUPhoto-Macros.h"
 
 @interface UUPhotoCollectionViewController() < UICollectionViewDelegate,
-                                               UICollectionViewDataSource >
+                                               UICollectionViewDataSource,
+                                               UUPhotoBrowserDelegate >
 
 @property (nonatomic, strong, getter = getCollectionView) UICollectionView *collectionView;
 @property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
+
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
@@ -83,10 +86,30 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
+    _currentPage = indexPath.row;
+    
     UUPhotoBrowserViewController *controller;
-    controller = [[UUPhotoBrowserViewController alloc] initWithJumpToPage:indexPath.row];
+    controller = [[UUPhotoBrowserViewController alloc] init];
+    controller.delegate = self;
     
     [self.navigationController pushViewController:controller animated:YES];
+}
+
+#pragma mark - UUPhotoBrowser Delegate
+
+- (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+
+    return [[UUAssetManager sharedInstance] getImageAtIndex:index type:2];
+}
+
+- (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+
+    return [UUAssetManager sharedInstance].assetPhotos.count;
+}
+
+- (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+
+    return _currentPage;
 }
 
 #pragma mark - Event Response
@@ -101,7 +124,8 @@
 - (void)onClickPreview:(id)sender{
 
     UUPhotoBrowserViewController *controller;
-    controller = [[UUPhotoBrowserViewController alloc] initWithJumpToPage:0];
+    controller = [[UUPhotoBrowserViewController alloc] init];
+    controller.delegate = self;
     
     [self.navigationController pushViewController:controller animated:YES];
 }

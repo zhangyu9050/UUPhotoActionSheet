@@ -8,18 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
+@class UUPhotoActionSheet;
+@protocol UUPhotoActionSheetDelegate < NSObject >
+
+- (void)imagePickerDidFinished:(UUPhotoActionSheet *)obj;
+
+- (void)imagePickerDidCancel:(UUPhotoActionSheet *)obj;
+
+@end
+
 @interface UUPhotoActionSheet : UIView
 
 - (instancetype)initWithFrame:(CGRect)frame weakSuper:(id)weakSuper;
 
 - (void)showAnimation;
 
-@end
-
-@protocol UUPhotoActionSheetDelegate < NSObject >
-
-//- (void)imagePickerDidFinished:(JFImagePickerController *)picker;
-//
-//- (void)imagePickerDidCancel:(JFImagePickerController *)picker;
+@property (nonatomic, weak) id<UUPhotoActionSheetDelegate> delegate;
 
 @end
+
+
