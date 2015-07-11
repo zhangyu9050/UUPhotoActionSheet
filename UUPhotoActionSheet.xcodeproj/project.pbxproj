@@ -574,6 +574,7 @@
 				2A37ED6F1B4FDD8A0083B5FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2A37ED701B4FDD8A0083B5FE /* Build configuration list for PBXNativeTarget "UUPhotoActionSheetTests" */ = {
 			isa = XCConfigurationList;
@@ -582,6 +583,7 @@
 				2A37ED721B4FDD8A0083B5FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

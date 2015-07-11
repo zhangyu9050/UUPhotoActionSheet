@@ -12,6 +12,7 @@
 @interface UUZoomingScrollView() < UIScrollViewDelegate >
 
 @property (nonatomic, strong, getter = getImagePhoto) UIImageView *imgPhoto;
+@property (nonatomic, strong) UITapGestureRecognizer *singleTap;
 
 @end
 
@@ -82,7 +83,6 @@
 #pragma mark - Private Modeh
 
 - (void)layoutSubviews {
-    
     
     // Super
     [super layoutSubviews];
@@ -201,6 +201,11 @@
     [self layoutIfNeeded];
 }
 
+- (void)addImageTarget:(id)target action:(SEL)action {
+    
+    [_singleTap addTarget:target action:action];
+}
+
 #pragma mark - Getters And Setters
 
 - (UIImageView *)getImagePhoto{
@@ -210,6 +215,10 @@
         _imgPhoto = [[UIImageView alloc] initWithFrame:CGRectZero];
         _imgPhoto.contentMode = UIViewContentModeCenter;
         _imgPhoto.backgroundColor = [UIColor blackColor];
+        _imgPhoto.userInteractionEnabled = YES;
+        
+        _singleTap = [[UITapGestureRecognizer alloc] init];
+        [_imgPhoto addGestureRecognizer:_singleTap];
     }
     
     return _imgPhoto;

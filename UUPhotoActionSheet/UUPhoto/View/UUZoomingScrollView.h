@@ -14,4 +14,6 @@
 
 - (void)prepareForReuse;
 
+- (void)addImageTarget:(id)target action:(SEL)action;
+
 @end

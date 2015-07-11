@@ -56,6 +56,8 @@
 
 - (void)configUI{
     
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.extendedLayoutIncludesOpaqueBars = YES;
     self.view.backgroundColor = [UIColor blackColor];
     
     [self.view addSubview:self.rootScroller];
@@ -100,6 +102,7 @@
             UUZoomingScrollView *page = [self dequeueRecycledPage];
             if (!page) {
                 page = [[UUZoomingScrollView alloc] init];
+                [page addImageTarget:self action:@selector(onClickImageBrowser:)];
             }
             [_visiblePages addObject:page];
             [self configurePage:page forIndex:index];
@@ -109,7 +112,37 @@
     }
 }
 
+- (void)onClickImageBrowser:(UIGestureRecognizer *)gesture{
+
+    [self setHideNavigationBar];
+}
+
 #pragma mark - Private Methods
+
+- (void)setHideNavigationBar{
+
+    CGRect frame = _toolBarView.frame;
+    if (self.navigationController.navigationBarHidden) {
+        
+        frame.origin.y = ScreenHeight -50;
+        
+        [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+        
+        
+    } else {
+        
+        frame.origin.y = ScreenHeight;
+        
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    }
+    
+    [UIView animateWithDuration:.25f animations:^{
+        
+        _toolBarView.frame = frame;
+    }];
+}
 
 - (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated {
     
