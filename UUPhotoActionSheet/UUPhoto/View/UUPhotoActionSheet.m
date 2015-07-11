@@ -10,7 +10,8 @@
 #import "UUPhoto-Macros.h"
 #import "UUPhoto-Import.h"
 
-@interface UUPhotoActionSheet()
+@interface UUPhotoActionSheet() < UIImagePickerControllerDelegate,
+                                  UINavigationControllerDelegate >
 
 @property (nonatomic, strong, getter = getSheetView) UIView *sheetView;
 
@@ -51,11 +52,28 @@
     [self.sheetView addSubview:self.btnAlbum];
     [self.sheetView addSubview:self.btnCamera];
     [self.sheetView addSubview:self.thumbnailView];
-    
 
 }
 
-#pragma mark - Delegate
+- (void)dealloc{
+
+    _weakSuper = nil;
+}
+
+#pragma mark - UIImagePickerController Delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
+
+    
+}
+
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+
+    [_weakSuper dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 
 #pragma mark - Custom Deledate
 
@@ -63,12 +81,20 @@
 
 - (void)onClickCamera:(id)sender{
 
-//    UINavigationController *naviController;
-//    naviController = [[UINavigationController alloc] initWithRootViewController:UUPhotoBrowserViewController.new];
-//    
-//    [_weakSuper presentViewController:naviController animated:YES completion:^{
-//        
-//    }];
+    UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
+    
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        pickerImage.sourceType = UIImagePickerControllerSourceTypeCamera;
+        pickerImage.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pickerImage.sourceType];
+        
+    }
+    
+    pickerImage.delegate = self;
+    pickerImage.allowsEditing = NO;
+    [_weakSuper presentViewController:pickerImage animated:YES completion:^{
+        
+    }];
 
 }
 
@@ -84,12 +110,32 @@
 
 - (void)onClickCancel:(id)sender{
     
-    
+    [self cancelAnimation];
 }
 
 #pragma mark - Public Methods
 
 #pragma mark - Private Methods
+
+- (void)cancelAnimation{
+
+    CGRect frame = self.frame;
+    frame.origin.y = ScreenHeight;
+    [UIView animateWithDuration:.25f animations:^{
+        
+        self.frame = frame;
+    }];
+}
+
+- (void)showAnimation{
+    
+    CGRect frame = self.frame;
+    frame.origin.y = 0;
+    [UIView animateWithDuration:.25f animations:^{
+        
+        self.frame = frame;
+    }];
+}
 
 #pragma mark - Getters And Setters
 

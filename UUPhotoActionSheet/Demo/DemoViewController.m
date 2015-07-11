@@ -10,6 +10,12 @@
 #import "UUPhotoActionSheet.h"
 #import "UUPhoto-Macros.h"
 
+@interface DemoViewController()
+
+@property (nonatomic, strong) UUPhotoActionSheet *sheet;
+
+@end
+
 @implementation DemoViewController
 
 - (void)viewDidLoad {
@@ -19,10 +25,8 @@
     
     self.navigationItem.title = @"UUPhotoActionSheet";
     
-    UUPhotoActionSheet *sheet;
-    sheet = [[UUPhotoActionSheet alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) weakSuper:self];
-    
-    [self.view addSubview:sheet];
+    _sheet = [[UUPhotoActionSheet alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight) weakSuper:self];
+    [self.view addSubview:_sheet];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -30,5 +34,9 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+
+    [_sheet showAnimation];
+}
 
 @end

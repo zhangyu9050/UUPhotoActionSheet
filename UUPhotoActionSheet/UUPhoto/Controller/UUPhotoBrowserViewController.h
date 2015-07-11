@@ -10,4 +10,6 @@
 
 @interface UUPhotoBrowserViewController : UIViewController
 
+- (instancetype)initWithJumpToPage:(NSInteger )index;
+
 @end

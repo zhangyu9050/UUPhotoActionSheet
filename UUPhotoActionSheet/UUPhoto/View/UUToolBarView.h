@@ -12,6 +12,10 @@
 
 @interface UUToolBarView : UIView
 
+- (instancetype)initWithWhiteColor;
+
+- (instancetype)initWithBlackColor;
+
 - (void)addSendTarget:(id)target action:(SEL)action;
 
 - (void)addPreviewTarget:(id)target action:(SEL)action;

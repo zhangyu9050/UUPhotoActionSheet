@@ -12,4 +12,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame weakSuper:(id)weakSuper;
 
+- (void)showAnimation;
+
+@end
+
+@protocol UUPhotoActionSheetDelegate < NSObject >
+
+//- (void)imagePickerDidFinished:(JFImagePickerController *)picker;
+//
+//- (void)imagePickerDidCancel:(JFImagePickerController *)picker;
+
 @end

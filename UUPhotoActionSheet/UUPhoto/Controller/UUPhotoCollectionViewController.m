@@ -83,7 +83,10 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+    UUPhotoBrowserViewController *controller;
+    controller = [[UUPhotoBrowserViewController alloc] initWithJumpToPage:indexPath.row];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - Event Response
@@ -97,7 +100,10 @@
 
 - (void)onClickPreview:(id)sender{
 
-    [self.navigationController pushViewController:UUPhotoBrowserViewController.new animated:YES];
+    UUPhotoBrowserViewController *controller;
+    controller = [[UUPhotoBrowserViewController alloc] initWithJumpToPage:0];
+    
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 - (void)onClickSend:(id)sender{
@@ -168,14 +174,10 @@
     if (!_toolBarView) {
         
         CGRect frame = CGRectMake(0, CGRectGetHeight(self.view.frame) -50, ScreenWidth, 50);
-        _toolBarView = [[UUToolBarView alloc] initWithFrame:frame];
+        _toolBarView = [[UUToolBarView alloc] initWithWhiteColor];
         [_toolBarView addPreviewTarget:self action:@selector(onClickPreview:)];
         [_toolBarView addSendTarget:self action:@selector(onClickSend:)];
-        
-        _toolBarView.backgroundColor = COLOR_WITH_RGB(250,250,250,1);
-        
-        _toolBarView.layer.borderWidth = 1;
-        _toolBarView.layer.borderColor = COLOR_WITH_RGB(224,224,224,1).CGColor;
+        _toolBarView.frame = frame;
     }
     
     return _toolBarView;

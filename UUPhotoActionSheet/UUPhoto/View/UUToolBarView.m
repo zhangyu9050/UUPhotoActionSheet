@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong, getter = getButtonSend) UIButton *btnSend;
 @property (nonatomic, strong, getter = getButtonPreview) UIButton *btnPreview;
+@property (nonatomic, strong, getter = getButtonOriginalImage) UIButton *btnOriginalImage;
+
 @property (nonatomic, strong, getter = getLabelNumber) UILabel *lblNumOfSelect;
 
 
@@ -21,11 +23,21 @@
 
 @implementation UUToolBarView
 
-- (instancetype)initWithFrame:(CGRect)frame{
+- (instancetype)initWithWhiteColor{
 
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super init]) {
         
-        [self configUI];
+        [self configWhiteColorUI];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithBlackColor{
+
+    if (self = [super init]) {
+        
+        [self configBlackColorUI];
     }
     
     return self;
@@ -33,12 +45,33 @@
 
 #pragma mark - life cycle
 
-- (void)configUI{
+- (void)configBlackColorUI{
+
+    [self addSubview:self.btnSend];
+    [self addSubview:self.btnOriginalImage];
+    [self addSubview:self.lblNumOfSelect];
+    
+    self.backgroundColor = COLOR_WITH_RGB(87,87,87,.6f);
+    
+    [self configNotification];
+}
+
+- (void)configWhiteColorUI{
     
     [self addSubview:self.btnSend];
     [self addSubview:self.btnPreview];
     [self addSubview:self.lblNumOfSelect];
     
+    self.backgroundColor = COLOR_WITH_RGB(250,250,250,1);
+    
+    self.layer.borderWidth = 1;
+    self.layer.borderColor = COLOR_WITH_RGB(224,224,224,1).CGColor;
+    
+    [self configNotification];
+}
+
+- (void)configNotification{
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationUpdateSelected:)
                                                  name:kNotificationUpdateSelected
@@ -143,5 +176,19 @@
     }
     
     return _lblNumOfSelect;
+}
+
+- (UIButton *)getButtonOriginalImage{
+
+    if (!_btnOriginalImage) {
+        
+        _btnOriginalImage = [UIButton buttonWithType:UIButtonTypeCustom];
+        _btnOriginalImage.frame = CGRectMake(10, 0, 50, 50);
+        [_btnOriginalImage setTitle:@"原图" forState:UIControlStateNormal];
+        [_btnOriginalImage setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
+        _btnOriginalImage.backgroundColor = [UIColor clearColor];
+    }
+    
+    return _btnOriginalImage;
 }
 @end

@@ -19,10 +19,21 @@
 
 @property (nonatomic, strong, getter = getRootScrollView) UIScrollView *rootScroller;
 @property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
+@property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
 @implementation UUPhotoBrowserViewController
+
+- (instancetype)initWithJumpToPage:(NSInteger )index{
+
+    if (self = [super init]) {
+     
+        _currentPage = index;
+    }
+    
+    return self;
+}
 
 - (void)viewDidLoad{
     
@@ -40,6 +51,20 @@
     
     [super didReceiveMemoryWarning];
 }
+
+#pragma mark - life cycle
+
+- (void)configUI{
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    
+    [self.view addSubview:self.rootScroller];
+    [self.view addSubview:self.toolBarView];
+    
+    [self jumpToPageAtIndex:_currentPage animated:NO];
+}
+
+#pragma mark - UIScrollView Delegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -84,37 +109,43 @@
     }
 }
 
-- (UUZoomingScrollView *)dequeueRecycledPage {
-    UUZoomingScrollView *page = [_recycledPages anyObject];
-    if (page) {
-        [_recycledPages removeObject:page];
+#pragma mark - Private Methods
+
+- (void)jumpToPageAtIndex:(NSUInteger)index animated:(BOOL)animated {
+    
+    // Change page
+    NSInteger numberOfPhotos = [UUAssetManager sharedInstance].assetPhotos.count;
+    if (index < numberOfPhotos) {
+        CGRect pageFrame = [self frameForPageAtIndex:index];
+        [_rootScroller setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:animated];
     }
+    
+}
+
+
+- (UUZoomingScrollView *)dequeueRecycledPage {
+    
+    UUZoomingScrollView *page = [_recycledPages anyObject];
+    if (page) [_recycledPages removeObject:page];
+    
     return page;
 }
 
 - (void)configurePage:(UUZoomingScrollView *)page forIndex:(NSUInteger)index {
-    page.frame = [self frameForPageAtIndex:index];
+    
     page.tag = index;
+    page.frame = [self frameForPageAtIndex:index];
     [page displayImage:[[UUAssetManager sharedInstance] getImageAtIndex:index type:2]];
 }
 
 - (BOOL)isDisplayingPageForIndex:(NSUInteger)index {
-    for (UUZoomingScrollView *page in _visiblePages)
+    
+    for (UUZoomingScrollView *page in _visiblePages){
+    
         if (page.tag == index) return YES;
+    }
+    
     return NO;
-}
-
-#pragma mark - life cycle
-
-- (void)configUI{
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    
-    [self.view addSubview:self.rootScroller];
-    [self.view addSubview:self.toolBarView];
-    
-    [self scrollViewDidScroll:nil];
-
 }
 
 - (CGRect)frameForPageAtIndex:(NSUInteger)index {
@@ -165,11 +196,12 @@
     if (!_toolBarView) {
         
         CGRect frame = CGRectMake(0, CGRectGetHeight(self.view.frame) -50, ScreenWidth, 50);
-        _toolBarView = [[UUToolBarView alloc] initWithFrame:frame];
+        _toolBarView = [[UUToolBarView alloc] initWithBlackColor];
+        _toolBarView.frame = frame;
 //        [_toolBarView addPreviewTarget:self action:@selector(onClickPreview:)];
 //        [_toolBarView addSendTarget:self action:@selector(onClickSend:)];
         
-        _toolBarView.backgroundColor = COLOR_WITH_RGB(250,250,250,.6f);
+        
         
     }
     
