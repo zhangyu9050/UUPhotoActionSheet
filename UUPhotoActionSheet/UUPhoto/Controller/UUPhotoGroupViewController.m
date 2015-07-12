@@ -42,7 +42,6 @@
         
         [self.tableView reloadData];
         
-        [UUAssetManager sharedInstance].currentGroupIndex = 0;
         [self.navigationController pushViewController:UUPhotoCollectionViewController.new animated:NO];
     }];
 }

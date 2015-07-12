@@ -63,9 +63,9 @@
     [self.view addSubview:self.toolBarView];
     
     [self configBarButtonItem];
-    
-    [self jumpToPageAtIndex:[self currentPage] animated:NO];
     [self updateVisiblePageView];
+    if ([self currentPage] > 0) [self jumpToPageAtIndex:[self currentPage] animated:NO];
+        
 }
 
 - (void)configBarButtonItem{
@@ -91,6 +91,16 @@
 }
 
 #pragma mark - Custom Deledate
+
+- (BOOL)isMaxSelectedNumber{
+
+    if (_delegate && [_delegate respondsToSelector:@selector(isCheckMaxSelectedFromPhotoBrowser:)]) {
+    
+        return [_delegate isCheckMaxSelectedFromPhotoBrowser:self];
+    }
+    
+    return YES;
+}
 
 - (void)isSelectedPhotoWithIndex:(NSInteger )index{
 
@@ -146,6 +156,8 @@
 
 - (void)onClickSelected:(UIButton *)sender{
 
+    if (!sender.selected && [self isMaxSelectedNumber]) return;
+    
     sender.selected = !sender.selected;
     
     if (sender.selected) {

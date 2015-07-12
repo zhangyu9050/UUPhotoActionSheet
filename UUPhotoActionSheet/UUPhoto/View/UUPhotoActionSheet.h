@@ -19,7 +19,9 @@
 
 @interface UUPhotoActionSheet : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame weakSuper:(id)weakSuper;
+- (instancetype)initWithFrame:(CGRect)frame
+                  maxSelected:(NSInteger )maxSelected
+                    weakSuper:(id)weakSuper;
 
 - (void)showAnimation;
 

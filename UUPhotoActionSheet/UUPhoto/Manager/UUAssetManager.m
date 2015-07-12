@@ -16,10 +16,6 @@
 
 @property (nonatomic, strong) NSMutableArray  *assetGroups;
 
-@property (nonatomic, strong) NSMutableArray  *waitArray;
-
-@property (nonatomic, strong) NSMutableArray  *defaultAssets;
-@property (nonatomic, strong) NSString        *originStr;
 @property (nonatomic, strong) ALAsset         *selectdAsset;
 
 @end
@@ -34,8 +30,6 @@ SHARED_SERVICE(UUAssetManager);
     if (self = [super init]) {
         
         _selectdPhotos = [[NSMutableArray alloc] init];
-        _selectdAssets = [[NSMutableArray alloc] init];
-        _waitArray = [[NSMutableArray alloc] init];
         
         _assetsLibrary = [[ALAssetsLibrary alloc] init];
         [_assetsLibrary writeImageToSavedPhotosAlbum:nil
@@ -48,40 +42,19 @@ SHARED_SERVICE(UUAssetManager);
     return self;
 }
 
-- (void)setCameraRollAtFirst{
-    
-    for (ALAssetsGroup *group in _assetGroups){
-        
-        if ([[group valueForProperty:@"ALAssetsGroupPropertyType"] intValue] == ALAssetsGroupSavedPhotos){
-            
-            // send to head
-            [_assetGroups removeObject:group];
-            [_assetGroups insertObject:group atIndex:0];
-            
-            return;
-        }
-    }
-}
-
 - (void)getGroupList:(void (^)(NSArray *))result{
     
     void (^assetGroupEnumerator)(ALAssetsGroup *, BOOL *) = ^(ALAssetsGroup *group, BOOL *stop)
     {
         [group setAssetsFilter:[ALAssetsFilter allPhotos]];
         
-        if (group == nil)
-        {
-            //            if (_bReverse)
-            _assetGroups = [[NSMutableArray alloc] initWithArray:[[_assetGroups reverseObjectEnumerator] allObjects]];
+        if (group == nil){
             
-            [self setCameraRollAtFirst];
-            
-            // end of enumeration
             result(_assetGroups);
             return;
         }
         
-        [_assetGroups addObject:group];
+        [_assetGroups insertObject:group atIndex:0];
     };
     
     void (^assetGroupEnumberatorFailure)(NSError *) = ^(NSError *error){
@@ -101,17 +74,7 @@ SHARED_SERVICE(UUAssetManager);
     [alGroup setAssetsFilter:[ALAssetsFilter allPhotos]];
     [alGroup enumerateAssetsUsingBlock:^(ALAsset *alPhoto, NSUInteger index, BOOL *stop) {
         
-        if(alPhoto == nil)
-        {
-            //            if (_bReverse) {
-            if (_defaultAssets) {
-                [_assetPhotos addObjectsFromArray:_defaultAssets];
-                //                }
-                
-                [_defaultAssets addObject:@"camera"];
-                
-                _assetPhotos = [[NSMutableArray alloc] initWithArray:[[_assetPhotos reverseObjectEnumerator] allObjects]];
-            }
+        if(alPhoto == nil){
             
             result(_assetPhotos);
             return;
@@ -142,10 +105,7 @@ SHARED_SERVICE(UUAssetManager);
                 
                 [group enumerateAssetsUsingBlock:^(ALAsset *alPhoto, NSUInteger index, BOOL *stop) {
                     
-                    if(alPhoto == nil)
-                    {
-                        //                        if (_bReverse)
-                        _assetPhotos = [[NSMutableArray alloc] initWithArray:[[_assetPhotos reverseObjectEnumerator] allObjects]];
+                    if(alPhoto == nil){
                         
                         result(_assetPhotos);
                         return;
@@ -179,42 +139,14 @@ SHARED_SERVICE(UUAssetManager);
     return _assetPhotos.count;
 }
 
-- (NSDictionary *)getGroupInfo:(NSInteger)nIndex{
-    
-    return @{@"name"  : [_assetGroups[nIndex] valueForProperty:ALAssetsGroupPropertyName],
-             @"count" : @([_assetGroups[nIndex] numberOfAssets])};
-}
-
 - (void)clearData{
     
-    [_selectdAssets removeAllObjects];
     [_selectdPhotos removeAllObjects];
-    [_defaultAssets removeAllObjects];
     
     _selectdPhotos = nil;
-    _selectdAssets = nil;
     
-    _defaultAssets = nil;
     _assetGroups   = nil;
     _assetPhotos   = nil;
-}
-
-- (NSMutableArray *)defaultAssets{
-    
-    if (!_defaultAssets) _defaultAssets = [[NSMutableArray alloc] init];
-    return _defaultAssets;
-}
-
-- (NSMutableArray *)selectdAssets{
-    
-    if (!_selectdAssets) _selectdAssets = [[NSMutableArray alloc] init];
-    return _selectdAssets;
-}
-
-- (NSMutableArray *)selectdPhotos{
-    
-    if (!_selectdPhotos) _selectdPhotos = [[NSMutableArray alloc] init];
-    return _selectdPhotos;
 }
 
 #pragma mark - utils

@@ -29,12 +29,15 @@
 
 @implementation UUPhotoActionSheet
 
-- (instancetype)initWithFrame:(CGRect)frame weakSuper:(id)weakSuper{
+- (instancetype)initWithFrame:(CGRect)frame
+                  maxSelected:(NSInteger )maxSelected
+                    weakSuper:(id)weakSuper{
 
     if (self = [super initWithFrame:frame]) {
         
         [self configUI];
         _weakSuper = weakSuper;
+        [UUAssetManager sharedInstance].maxSelected = maxSelected;
     }
     
     return self;

@@ -17,11 +17,11 @@
 
 @interface UUAssetManager : NSObject
 
+@property (nonatomic, assign) NSInteger maxSelected;
 @property (nonatomic, assign) NSInteger currentGroupIndex;
 
 @property (nonatomic, strong) NSMutableArray  *assetPhotos;
 @property (nonatomic, strong) NSMutableArray  *selectdPhotos;
-@property (nonatomic, strong) NSMutableArray  *selectdAssets;
 
 + (instancetype)sharedInstance;
 
@@ -36,7 +36,6 @@
 
 - (NSInteger)getGroupCount;
 - (NSInteger)getPhotoCountOfCurrentGroup;
-- (NSDictionary *)getGroupInfo:(NSInteger)nIndex;
 
 - (void)clearData;
 

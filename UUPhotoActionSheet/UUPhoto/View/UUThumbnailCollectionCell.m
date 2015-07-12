@@ -60,21 +60,7 @@
     
     if ([self isContainsPointWithPoint:location]) {
         
-        if (!_isCheckSelected && [UUAssetManager sharedInstance].selectdPhotos.count >= 9) return;
-        
-        if (!_isCheckSelected) {
-            
-            [[UUAssetManager sharedInstance] addObjectWithIndex:_indexPath.row];
-            
-            [self setIsCheckSelected:YES];
-            
-        }else{
-            
-            
-            [[UUAssetManager sharedInstance] removeObjectWithIndex:_indexPath.row];
-            
-            [self setIsCheckSelected:NO];
-        }
+        [self setContentSelected];
     }
 }
 
@@ -97,7 +83,8 @@
 
 - (void)setContentSelected{
 
-    if (!_isCheckSelected && [UUAssetManager sharedInstance].selectdPhotos.count >= 9) return;
+    NSInteger max = [UUAssetManager sharedInstance].maxSelected;
+    if (!_isCheckSelected && [UUAssetManager sharedInstance].selectdPhotos.count >= max) return;
     
     if (!_isCheckSelected) {
         

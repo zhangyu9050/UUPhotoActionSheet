@@ -105,6 +105,12 @@
 
 #pragma mark - UUPhotoBrowser Delegate
 
+- (BOOL)isCheckMaxSelectedFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+
+    NSInteger max = [UUAssetManager sharedInstance].maxSelected;
+    return [UUAssetManager sharedInstance].selectdPhotos.count >= max ? YES : NO;
+}
+
 - (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected{
 
     if (selected) {
@@ -140,7 +146,7 @@
 
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    if (_isPreview) return YES;
+//    if (_isPreview) return YES;
     return [[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:index];
 }
 

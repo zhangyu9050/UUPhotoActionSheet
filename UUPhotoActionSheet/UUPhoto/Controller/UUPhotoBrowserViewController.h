@@ -16,6 +16,8 @@
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 - (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected;
 
+- (BOOL)isCheckMaxSelectedFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
 - (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 
