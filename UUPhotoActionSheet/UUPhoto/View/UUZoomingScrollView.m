@@ -28,6 +28,13 @@
     return self;
 }
 
+- (void)dealloc{
+
+    _singleTap = nil;
+    _imgPhoto.image = nil;
+    _imgPhoto = nil;
+}
+
 - (void)configUI{
     
 //    self.layer.borderWidth = 2;

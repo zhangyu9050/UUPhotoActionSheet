@@ -31,6 +31,15 @@
     return self;
 }
 
+- (void)prepareForReuse{
+
+    [super prepareForReuse];
+    
+    _imgThumbnails.image = nil;
+    _isCheckSelected = NO;
+    
+}
+
 #pragma mark - life cycle
 
 - (void)configUI{
@@ -82,17 +91,7 @@
     
     self.imgThumbnails.image = [[UUAssetManager sharedInstance] getImageAtIndex:indexPath.row type:1];
     
-    NSIndexPath *groupIndex = [NSIndexPath indexPathForRow:indexPath.row inSection:[UUAssetManager sharedInstance].currentGroupIndex];
-    for (UUWaitImage *obj in [UUAssetManager sharedInstance].selectdPhotos) {
-        
-        if (groupIndex.row == obj.indexPath.row && groupIndex.section == obj.indexPath.section) {
-            
-            [self setIsCheckSelected:YES];
-            return;
-        }
-    }
-    
-    [self setIsCheckSelected:NO];
+    [self setIsCheckSelected:[[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:indexPath.row]];
 
 }
 

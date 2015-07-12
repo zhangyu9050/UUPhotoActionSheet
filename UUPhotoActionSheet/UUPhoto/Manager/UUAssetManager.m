@@ -329,8 +329,8 @@ SHARED_SERVICE(UUAssetManager);
 
 - (UIImage *)getImagePreviewAtIndex:(NSInteger)nIndex type:(NSInteger)nType
 {
-    UUWaitImage *obj = _selectdPhotos[nIndex];
-    return [self getImageFromAsset:(ALAsset *)obj.waitAsset type:nType];
+    UUAssetPhoto *obj = _selectdPhotos[nIndex];
+    return [self getImageFromAsset:(ALAsset *)obj.asset type:nType];
 }
 
 - (ALAsset *)getAssetAtIndex:(NSInteger)nIndex
@@ -346,9 +346,9 @@ SHARED_SERVICE(UUAssetManager);
 - (NSArray *)sendSelectedPhotos:(NSInteger )type{
 
     NSMutableArray *sendArray = [NSMutableArray array];
-    for (UUWaitImage *obj in _selectdPhotos) {
+    for (UUAssetPhoto *obj in _selectdPhotos) {
         
-        UIImage *image = [self getImageFromAsset:obj.waitAsset type:type];
+        UIImage *image = [self getImageFromAsset:obj.asset type:type];
         
         [sendArray addObject:image];
     }
@@ -360,13 +360,11 @@ SHARED_SERVICE(UUAssetManager);
 
 - (void)addObjectWithIndex:(NSInteger )index{
     
-    NSInteger section = _currentGroupIndex;
     
-    UUWaitImage *model = [[UUWaitImage alloc] init];
-    model.indexPath = [NSIndexPath indexPathForRow:index inSection:section];
-    
-    model.waitAsset = _assetPhotos[index];
-    
+    UUAssetPhoto *model = [[UUAssetPhoto alloc] initWithGroup:_currentGroupIndex
+                                                        index:index
+                                                        asset:_assetPhotos[index]];
+
     [_selectdPhotos addObject:model];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUpdateSelected object:nil];
@@ -374,23 +372,77 @@ SHARED_SERVICE(UUAssetManager);
 
 - (void)removeObjectWithIndex:(NSInteger )index{
     
-    for (UUWaitImage *obj in _selectdPhotos) {
+    NSString *groupIndex = [NSString stringWithFormat:@"%ld-%ld",(long)_currentGroupIndex,(long)index];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"groupIndex == %@", groupIndex];
+    NSArray *results = [_selectdPhotos filteredArrayUsingPredicate:predicate];
+    
+    if (results.count > 0) {
         
-        if (index == obj.indexPath.row && obj.indexPath.section == _currentGroupIndex) {
-            
-            [_selectdPhotos removeObject:obj];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUpdateSelected object:nil];
-            return;
-        }
+        UUAssetPhoto *model = results[0];
+        [_selectdPhotos removeObject:model];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationUpdateSelected object:nil];
+    }
+}
+
+- (BOOL)isSelectdPhotosWithIndex:(NSInteger )index{
+
+    NSString *groupIndex = [NSString stringWithFormat:@"%ld-%ld",(long)_currentGroupIndex,(long)index];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"groupIndex == %@", groupIndex];
+    NSArray *results = [_selectdPhotos filteredArrayUsingPredicate:predicate];
+    
+    return results.count > 0 ? YES : NO;
+}
+
+- (NSInteger )currentGroupFirstIndex{
+    
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"group == %ld", (long)_currentGroupIndex];
+    NSArray *results = [_selectdPhotos filteredArrayUsingPredicate:predicate];
+    
+    if (results.count > 0) {
+        
+        UUAssetPhoto *model = results[0];
+        return model.index;
     }
     
-    
+    return 0;
 }
 
 @end
 
-@implementation UUWaitImage
+/****************************************************
+ *  
+ *  Model
+ 
+ *
+ ****************************************************/
+
+@interface UUAssetPhoto()
+
+@property (nonatomic, assign) NSInteger group;
+
+@end
+
+@implementation UUAssetPhoto
 
 
+- (instancetype)initWithGroup:(NSInteger )group
+                        index:(NSInteger )index
+                        asset:(ALAsset *)asset{
+
+    if (self = [super init]) {
+        
+        _group = group;
+        _index = index;
+        _asset = asset;
+        
+        _groupIndex = [NSString stringWithFormat:@"%ld-%ld",(long)group,(long)index];
+    }
+    
+    return self;
+}
 
 @end

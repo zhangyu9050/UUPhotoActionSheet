@@ -29,18 +29,25 @@
     
     [super viewDidLoad];
     
-    self.view.clipsToBounds = YES;
-    
     _visiblePages = [[NSMutableSet alloc] init];
     _recycledPages = [[NSMutableSet alloc] init];
     
     [self configUI];
-    [self configBarButtonItem];
+    
 }
 
 - (void)didReceiveMemoryWarning{
     
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc{
+
+    [_visiblePages removeAllObjects];
+    [_recycledPages removeAllObjects];
+    
+    _visiblePages = nil;
+    _recycledPages = nil;
 }
 
 #pragma mark - life cycle
@@ -55,7 +62,10 @@
     [self.view addSubview:self.rootScroller];
     [self.view addSubview:self.toolBarView];
     
+    [self configBarButtonItem];
+    
     [self jumpToPageAtIndex:[self currentPage] animated:NO];
+    [self updateVisiblePageView];
 }
 
 - (void)configBarButtonItem{
@@ -77,7 +87,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    
+    [self updateVisiblePageView];
 }
 
 #pragma mark - Custom Deledate
@@ -160,7 +170,7 @@
 
 #pragma mark - Private Methods
 
-- (void)loadPhotoView{
+- (void)updateVisiblePageView{
 
     CGRect visibleBounds = _rootScroller.bounds;
     NSInteger iFirstIndex = (NSInteger)floorf((CGRectGetMinX(visibleBounds)+PADDING*2) / CGRectGetWidth(visibleBounds));

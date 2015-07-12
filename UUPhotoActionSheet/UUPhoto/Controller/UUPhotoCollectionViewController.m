@@ -26,6 +26,7 @@
 
 -(void) viewWillAppear:(BOOL)animated{
 
+    [super viewWillAppear:animated];
     _isPreview = NO;
 }
 
@@ -139,18 +140,8 @@
 
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    NSIndexPath *groupIndex = [NSIndexPath indexPathForRow:index
-                                                 inSection:[UUAssetManager sharedInstance].currentGroupIndex];
-    
-    for (UUWaitImage *obj in [UUAssetManager sharedInstance].selectdPhotos) {
-        
-        if (groupIndex.row == obj.indexPath.row && groupIndex.section == obj.indexPath.section) {
-
-            return YES;
-        }
-    }
-    
-    return NO;
+    if (_isPreview) return YES;
+    return [[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:index];
 }
 
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
@@ -170,6 +161,7 @@
 - (void)onClickPreview:(id)sender{
 
     _isPreview = YES;
+    _currentPage = 0;
     UUPhotoBrowserViewController *controller;
     controller = [[UUPhotoBrowserViewController alloc] init];
     controller.delegate = self;
@@ -181,18 +173,11 @@
 
 - (void)scrollToSelectedItem{
     
-    NSInteger groupIndex = [UUAssetManager sharedInstance].currentGroupIndex;
-    for (UUWaitImage *obj in [UUAssetManager sharedInstance].selectdPhotos) {
-        
-        if (obj.indexPath.section == groupIndex) {
-            
-            [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:obj.indexPath.row inSection:0]
-                                    atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                            animated:NO];
-            return;
-        }
-    }
+    NSInteger index = [[UUAssetManager sharedInstance] currentGroupFirstIndex];
     
+    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
+                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                    animated:NO];
 }
 
 #pragma mark - Getters And Setters
@@ -219,14 +204,10 @@
         [_collectionView registerClass:[UUThumbnailCollectionCell class]
             forCellWithReuseIdentifier:[UUThumbnailCollectionCell cellReuseIdentifier]];
         
-        [[UUAssetManager sharedInstance] getPhotoListOfGroupByIndex:[UUAssetManager sharedInstance].currentGroupIndex result:^(NSArray *r) {
-//            [[UUImageManager sharedInstance] startCahcePhotoThumbWithSize:CGSizeMake(size, size)];
+        [[UUAssetManager sharedInstance] getPhotoListOfGroupByIndex:[UUAssetManager sharedInstance].currentGroupIndex
+                                                             result:^(NSArray *obj) {
+            
             [_collectionView reloadData];
-//            if ([UUAssetManager sharedInstance].previewIndex>=0) {
-                //                JFPhotoBrowserViewController *photoBrowser = [[JFPhotoBrowserViewController alloc] initWithPreview];
-                //                photoBrowser.delegate = self.navigationController;
-                //                [self.navigationController pushViewController:photoBrowser animated:YES];
-//            }
             
             [self scrollToSelectedItem];
         }];

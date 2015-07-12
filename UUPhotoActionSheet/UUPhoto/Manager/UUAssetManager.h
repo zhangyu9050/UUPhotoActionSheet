@@ -50,14 +50,20 @@
 
 - (void)addObjectWithIndex:(NSInteger )index;
 - (void)removeObjectWithIndex:(NSInteger )index;
-
+- (BOOL)isSelectdPhotosWithIndex:(NSInteger )index;
 - (NSArray *)sendSelectedPhotos:(NSInteger )type;
+- (NSInteger )currentGroupFirstIndex;
 
 @end
 
-@interface UUWaitImage : NSObject
+@interface UUAssetPhoto : NSObject
 
-@property (nonatomic, strong) NSIndexPath *indexPath;
-@property (nonatomic, strong) ALAsset *waitAsset;
+@property (nonatomic, strong) ALAsset *asset;
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, strong) NSString *groupIndex;
+
+- (instancetype)initWithGroup:(NSInteger )group
+                        index:(NSInteger )index
+                        asset:(ALAsset *)asset;
 
 @end
