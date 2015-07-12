@@ -100,14 +100,14 @@
 
 - (void)onClickOriginal:(UIButton *)sender{
 
-    if (sender.tag == 1000) {
+    if (!sender.selected) {
         
-        sender.tag = 1001;
+        sender.selected = YES;
         _imgOriginal.image = [UIImage imageNamed:@"ImageSelectedOn"];
         
     }else{
         
-        sender.tag = 1000;
+        sender.selected = NO;
         _imgOriginal.image = [UIImage imageNamed:@"ImageSelectedOff"];
     }
 }
@@ -190,13 +190,14 @@
 
     if (!_lblNumOfSelect) {
         
-        _lblNumOfSelect = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth -80, 15, 20, 20)];
+        _lblNumOfSelect = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth -75, 16, 18, 18)];
         _lblNumOfSelect.backgroundColor = COLOR_WITH_RGB(94,201,252,.9f);
-        _lblNumOfSelect.textAlignment = NSTextAlignmentCenter;
-        _lblNumOfSelect.textColor = [UIColor whiteColor];
-        _lblNumOfSelect.font = [UIFont systemFontOfSize:13];
-        _lblNumOfSelect.layer.cornerRadius = 9;
         _lblNumOfSelect.layer.borderColor = [UIColor whiteColor].CGColor;
+        _lblNumOfSelect.textAlignment = NSTextAlignmentCenter;
+        _lblNumOfSelect.font = [UIFont systemFontOfSize:10];
+        _lblNumOfSelect.textColor = [UIColor whiteColor];
+
+        _lblNumOfSelect.layer.cornerRadius = 8;
         _lblNumOfSelect.layer.borderWidth = 1;
         _lblNumOfSelect.clipsToBounds = YES;
         _lblNumOfSelect.hidden = YES;
@@ -215,7 +216,6 @@
         [_btnOriginal setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
         _btnOriginal.backgroundColor = [UIColor clearColor];
         _btnOriginal.titleLabel.font = [UIFont systemFontOfSize:16];
-        _btnOriginal.tag = 1000;
         
         [_btnOriginal addTarget:self action:@selector(onClickOriginal:) forControlEvents:UIControlEventTouchUpInside];
     }

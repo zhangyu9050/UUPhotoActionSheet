@@ -14,6 +14,7 @@
 
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+- (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected;
 
 - (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;

@@ -92,6 +92,7 @@
         
         _collectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:flowLayout];
         _collectionView.backgroundColor = COLOR_WITH_RGB(230,231,234,1);
+        _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
 

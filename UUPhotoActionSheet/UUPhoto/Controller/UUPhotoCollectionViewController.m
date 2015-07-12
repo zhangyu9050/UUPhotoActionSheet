@@ -104,6 +104,19 @@
 
 #pragma mark - UUPhotoBrowser Delegate
 
+- (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected{
+
+    if (selected) {
+        
+        [[UUAssetManager sharedInstance] addObjectWithIndex:index];
+        
+    }else [[UUAssetManager sharedInstance] removeObjectWithIndex:index];
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    
+    [_collectionView reloadItemsAtIndexPaths:@[indexPath]];
+}
+
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
     if (_isPreview) {

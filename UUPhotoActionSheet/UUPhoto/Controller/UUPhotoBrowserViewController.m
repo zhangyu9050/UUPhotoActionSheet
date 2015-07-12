@@ -121,14 +121,18 @@
 
 - (void)isSelectedPhotoWithIndex:(NSInteger )index{
 
+    
     if (_delegate && [_delegate respondsToSelector:@selector(isSelectedPhotosWithIndex:fromPhotoBrowser:)]) {
         
+        _btnSelected.tag = index;
         if ([_delegate isSelectedPhotosWithIndex:index fromPhotoBrowser:self]){
         
+            _btnSelected.selected = YES;
             [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
             
         }else{
         
+            _btnSelected.selected = NO;
             [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
         }
     }
@@ -167,9 +171,23 @@
 
 #pragma mark - Event Response
 
-- (void)onClickSelected:(id)sender{
+- (void)onClickSelected:(UIButton *)sender{
 
+    sender.selected = !sender.selected;
     
+    if (sender.selected) {
+        
+        [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOn"] forState:UIControlStateNormal];
+    }else{
+    
+        [_btnSelected setImage:[UIImage imageNamed:@"ImageSelectedOff"] forState:UIControlStateNormal];
+    }
+    
+    
+    if (_delegate && [_delegate respondsToSelector:@selector(numberOfPhotosWithIndex:selectedChanged:)]) {
+        
+        return [_delegate numberOfPhotosWithIndex:sender.tag selectedChanged:sender.selected];
+    }
 }
 
 - (void)onClickImageBrowser:(UIGestureRecognizer *)gesture{
