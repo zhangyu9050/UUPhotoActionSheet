@@ -289,6 +289,12 @@ SHARED_SERVICE(UUAssetManager);
     return model.index;
 }
 
+- (BOOL)isSelectdPreviewWithIndex:(NSInteger )index{
+
+    UUAssetPhoto *model = _selectdPhotos[index];
+    return model.isSelected;
+}
+
 - (BOOL)isSelectdPhotosWithIndex:(NSInteger )index{
 
     NSString *groupIndex = [NSString stringWithFormat:@"%ld-%ld",(long)_currentGroupIndex,(long)index];

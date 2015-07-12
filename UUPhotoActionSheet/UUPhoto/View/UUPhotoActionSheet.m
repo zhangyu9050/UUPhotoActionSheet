@@ -32,7 +32,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
                   maxSelected:(NSInteger )maxSelected
                     weakSuper:(id)weakSuper{
-
+    
     if (self = [super initWithFrame:frame]) {
         
         [self configUI];
@@ -109,9 +109,9 @@
 
 - (void)sendImageArray:(NSArray *)obj{
 
-    if (_delegate && [_delegate respondsToSelector:@selector(imagePickerDidFinished:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(actionSheetDidFinished:)]) {
         
-        [_delegate imagePickerDidFinished:obj];
+        [_delegate actionSheetDidFinished:obj];
     }
 }
 
@@ -156,6 +156,7 @@
 
 - (void)onClickCancel:(id)sender{
     
+    [[UUAssetManager sharedInstance].selectdPhotos removeAllObjects];
     [self cancelAnimation];
 }
 
@@ -165,7 +166,6 @@
         
     }];
     
-    [_thumbnailView reloadView];
     [self sendImageArray:[[UUAssetManager sharedInstance] sendSelectedPhotos:2]];
     [self cancelAnimation];
     
@@ -173,6 +173,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 
+    [[UUAssetManager sharedInstance].selectdPhotos removeAllObjects];
     [self cancelAnimation];
 }
 
@@ -180,6 +181,7 @@
 
 - (void)showAnimation{
     
+    [_thumbnailView reloadView];
     [_btnCamera setTitle:@"拍照" forState:UIControlStateNormal];
     
     CGRect frame = _sheetView.frame;

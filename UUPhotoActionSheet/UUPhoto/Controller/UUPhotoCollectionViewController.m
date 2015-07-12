@@ -152,7 +152,7 @@
 
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    if (_isPreview) return YES;
+    if (_isPreview) return [[UUAssetManager sharedInstance] isSelectdPreviewWithIndex:index];
     
     return [[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:index];
 }
@@ -167,7 +167,8 @@
 - (void)onClickCancel:(id)sender{
     
     [self dismissViewControllerAnimated:YES completion:^{
-        
+       
+        [[UUAssetManager sharedInstance].selectdPhotos removeAllObjects];
     }];
 }
 

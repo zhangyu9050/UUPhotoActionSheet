@@ -56,6 +56,7 @@
 //标记选择项
 - (NSInteger )markPreviewObjectWithIndex:(NSInteger )index selecte:(BOOL)selecte;
 
+- (BOOL)isSelectdPreviewWithIndex:(NSInteger )index;
 - (BOOL)isSelectdPhotosWithIndex:(NSInteger )index;
 - (NSArray *)sendSelectedPhotos:(NSInteger )type;
 - (NSInteger )currentGroupFirstIndex;

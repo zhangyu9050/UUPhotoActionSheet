@@ -112,6 +112,7 @@
     
     [self dismissViewControllerAnimated:YES completion:^{
         
+        [[UUAssetManager sharedInstance].selectdPhotos removeAllObjects];
     }];
 }
 
