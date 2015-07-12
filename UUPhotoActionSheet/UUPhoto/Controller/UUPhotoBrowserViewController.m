@@ -47,8 +47,9 @@
 
 - (void)configUI{
     
-    self.automaticallyAdjustsScrollViewInsets = NO;
     self.extendedLayoutIncludesOpaqueBars = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
     self.view.backgroundColor = [UIColor blackColor];
     
     [self.view addSubview:self.rootScroller];
@@ -76,45 +77,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    CGRect visibleBounds = _rootScroller.bounds;
-    NSInteger iFirstIndex = (NSInteger)floorf((CGRectGetMinX(visibleBounds)+PADDING*2) / CGRectGetWidth(visibleBounds));
-    NSInteger iLastIndex  = (NSInteger)floorf((CGRectGetMaxX(visibleBounds)-PADDING*2-1) / CGRectGetWidth(visibleBounds));
-    if (iFirstIndex < 0) iFirstIndex = 0;
-    if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
-    if (iLastIndex < 0) iLastIndex = 0;
-    if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
     
-    NSInteger pageIndex;
-    for (UUZoomingScrollView *page in _visiblePages) {
-        pageIndex = page.tag;
-        if (pageIndex < (NSUInteger)iFirstIndex || pageIndex > (NSUInteger)iLastIndex) {
-            [_recycledPages addObject:page];
-            
-            [page prepareForReuse];
-            [page removeFromSuperview];
-        }
-    }
-    
-    [_visiblePages minusSet:_recycledPages];
-    while (_recycledPages.count > 2) // Only keep 2 recycled pages
-        [_recycledPages removeObject:[_recycledPages anyObject]];
-    
-    // Add missing pages
-    for (NSUInteger index = (NSUInteger)iFirstIndex; index <= (NSUInteger)iLastIndex; index++) {
-        if (![self isDisplayingPageForIndex:index]) {
-            
-            // Add new page
-            UUZoomingScrollView *page = [self dequeueRecycledPage];
-            if (!page) {
-                page = [[UUZoomingScrollView alloc] init];
-                [page addImageTarget:self action:@selector(onClickImageBrowser:)];
-            }
-            [_visiblePages addObject:page];
-            [self configurePage:page forIndex:index];
-            
-            [_rootScroller addSubview:page];
-        }
-    }
 }
 
 #pragma mark - Custom Deledate
@@ -197,6 +160,49 @@
 
 #pragma mark - Private Methods
 
+- (void)loadPhotoView{
+
+    CGRect visibleBounds = _rootScroller.bounds;
+    NSInteger iFirstIndex = (NSInteger)floorf((CGRectGetMinX(visibleBounds)+PADDING*2) / CGRectGetWidth(visibleBounds));
+    NSInteger iLastIndex  = (NSInteger)floorf((CGRectGetMaxX(visibleBounds)-PADDING*2-1) / CGRectGetWidth(visibleBounds));
+    if (iFirstIndex < 0) iFirstIndex = 0;
+    if (iFirstIndex > [self numberOfPhotos] - 1) iFirstIndex = [self numberOfPhotos] - 1;
+    if (iLastIndex < 0) iLastIndex = 0;
+    if (iLastIndex > [self numberOfPhotos] - 1) iLastIndex = [self numberOfPhotos] - 1;
+    
+    NSInteger pageIndex;
+    for (UUZoomingScrollView *page in _visiblePages) {
+        pageIndex = page.tag;
+        if (pageIndex < (NSUInteger)iFirstIndex || pageIndex > (NSUInteger)iLastIndex) {
+            [_recycledPages addObject:page];
+            
+            [page prepareForReuse];
+            [page removeFromSuperview];
+        }
+    }
+    
+    [_visiblePages minusSet:_recycledPages];
+    while (_recycledPages.count > 2) // Only keep 2 recycled pages
+        [_recycledPages removeObject:[_recycledPages anyObject]];
+    
+    // Add missing pages
+    for (NSUInteger index = (NSUInteger)iFirstIndex; index <= (NSUInteger)iLastIndex; index++) {
+        if (![self isDisplayingPageForIndex:index]) {
+            
+            // Add new page
+            UUZoomingScrollView *page = [self dequeueRecycledPage];
+            if (!page) {
+                page = [[UUZoomingScrollView alloc] init];
+                [page addImageTarget:self action:@selector(onClickImageBrowser:)];
+            }
+            [_visiblePages addObject:page];
+            [self configurePage:page forIndex:index];
+            
+            [_rootScroller addSubview:page];
+        }
+    }
+}
+
 - (void)setHideNavigationBar{
     
     CGRect frame = _toolBarView.frame;
@@ -227,6 +233,7 @@
     // Change page
     NSInteger numberOfPhotos = [UUAssetManager sharedInstance].assetPhotos.count;
     if (index < numberOfPhotos) {
+        
         CGRect pageFrame = [self frameForPageAtIndex:index];
         [_rootScroller setContentOffset:CGPointMake(pageFrame.origin.x - PADDING, 0) animated:animated];
     }
@@ -273,7 +280,7 @@
 - (CGSize)contentSizeForPagingScrollView {
     
     CGRect bounds = _rootScroller.bounds;
-    return CGSizeMake(bounds.size.width * [UUAssetManager sharedInstance].assetPhotos.count, 0);
+    return CGSizeMake(bounds.size.width * [self numberOfPhotos], 0);
 }
 
 #pragma mark - Getters And Setters
@@ -302,10 +309,6 @@
         CGRect frame = CGRectMake(0, CGRectGetHeight(self.view.frame) -50, ScreenWidth, 50);
         _toolBarView = [[UUToolBarView alloc] initWithBlackColor];
         _toolBarView.frame = frame;
-//        [_toolBarView addPreviewTarget:self action:@selector(onClickPreview:)];
-//        [_toolBarView addSendTarget:self action:@selector(onClickSend:)];
-        
-        
         
     }
     
