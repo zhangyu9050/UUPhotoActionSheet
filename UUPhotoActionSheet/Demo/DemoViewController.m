@@ -50,9 +50,9 @@
 
 #pragma mark - Custom Deledate
 
-- (void)imagePickerDidFinished:(NSArray *)obj{
+- (void)actionSheetDidFinished:(NSArray *)obj{
 
-    NSLog(@"obj count >>> %lu",(unsigned long)obj.count);
+    NSLog(@"已发送 %lu 图片",(unsigned long)obj.count);
 }
 
 @end

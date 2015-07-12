@@ -13,7 +13,7 @@
 @class UUPhotoActionSheet;
 @protocol UUPhotoActionSheetDelegate < NSObject >
 
-- (void)imagePickerDidFinished:(NSArray *)obj;
+- (void)actionSheetDidFinished:(NSArray *)obj;
 
 @end
 
