@@ -35,12 +35,12 @@
 - (void)getSavedPhotoList:(void (^)(NSArray *))result error:(void (^)(NSError *))error;
 
 - (NSInteger)getGroupCount;
+- (NSInteger)getSelectedPhotoCount;
 - (NSInteger)getPhotoCountOfCurrentGroup;
 
 - (void)clearData;
 
 // utils
-- (UIImage *)getCroppedImage:(NSURL *)urlImage;
 - (UIImage *)getImageFromAsset:(ALAsset *)asset type:(NSInteger)nType;
 - (UIImage *)getImageAtIndex:(NSInteger)nIndex type:(NSInteger)nType;
 - (ALAsset *)getAssetAtIndex:(NSInteger)nIndex;
@@ -49,6 +49,13 @@
 
 - (void)addObjectWithIndex:(NSInteger )index;
 - (void)removeObjectWithIndex:(NSInteger )index;
+
+//过滤未选择
+- (void)markFilterPreviewObject;
+
+//标记选择项
+- (NSInteger )markPreviewObjectWithIndex:(NSInteger )index selecte:(BOOL)selecte;
+
 - (BOOL)isSelectdPhotosWithIndex:(NSInteger )index;
 - (NSArray *)sendSelectedPhotos:(NSInteger )type;
 - (NSInteger )currentGroupFirstIndex;
@@ -59,6 +66,7 @@
 
 @property (nonatomic, strong) ALAsset *asset;
 @property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, strong) NSString *groupIndex;
 
 - (instancetype)initWithGroup:(NSInteger )group

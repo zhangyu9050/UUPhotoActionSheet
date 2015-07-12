@@ -10,4 +10,6 @@
 
 @interface UUThumbnailView : UIView
 
+- (void)reloadView;
+
 @end

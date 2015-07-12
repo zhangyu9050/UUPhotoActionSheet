@@ -75,6 +75,11 @@
 
 #pragma mark - Public Methods
 
+- (void)reloadView{
+
+    [_collectionView reloadData];
+}
+
 #pragma mark - Private Methods
 
 #pragma mark - Getters And Setters

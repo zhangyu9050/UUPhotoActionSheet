@@ -56,8 +56,8 @@
     
     self.extendedLayoutIncludesOpaqueBars = YES;
     self.automaticallyAdjustsScrollViewInsets = NO;
-    
     self.view.backgroundColor = [UIColor blackColor];
+    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     
     [self.view addSubview:self.rootScroller];
     [self.view addSubview:self.toolBarView];

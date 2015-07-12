@@ -57,10 +57,22 @@
     [self.sheetView addSubview:self.btnCamera];
     [self.sheetView addSubview:self.thumbnailView];
 
+    [self configNotification];
+}
+
+- (void)configNotification{
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(notificationSendPhotos:)
                                                  name:kNotificationSendPhotos
                                                object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationUpdateSelected:)
+                                                 name:kNotificationUpdateSelected
+                                               object:nil];
+
 }
 
 - (void)dealloc{
@@ -106,6 +118,12 @@
 #pragma mark - Event Response
 
 - (void)onClickCamera:(id)sender{
+    
+    if (_btnCamera.selected == NO) {
+        
+        [self notificationSendPhotos:nil];
+        return;
+    }
 
     UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
     
@@ -145,8 +163,11 @@
     
     [_weakSuper dismissViewControllerAnimated:YES completion:^{
         
-        [self sendImageArray:[[UUAssetManager sharedInstance] sendSelectedPhotos:2]];
     }];
+    
+    [_thumbnailView reloadView];
+    [self sendImageArray:[[UUAssetManager sharedInstance] sendSelectedPhotos:2]];
+    [self cancelAnimation];
     
 }
 
@@ -159,6 +180,8 @@
 
 - (void)showAnimation{
     
+    [_btnCamera setTitle:@"拍照" forState:UIControlStateNormal];
+    
     CGRect frame = _sheetView.frame;
     frame.origin.y = ScreenHeight -350;
     [UIView animateWithDuration:.25f animations:^{
@@ -166,10 +189,26 @@
         _sheetView.frame = frame;
         self.alpha = 1;
     }];
+    
 }
 
 
 #pragma mark - Private Methods
+
+- (void)notificationUpdateSelected:(NSNotification *)note{
+    
+    NSInteger count = [[UUAssetManager sharedInstance] getSelectedPhotoCount];
+    if (count == 0) {
+        
+        _btnCamera.selected = YES;
+        [_btnCamera setTitle:@"拍照" forState:UIControlStateNormal];
+        return;
+    }
+    
+    _btnCamera.selected = NO;
+    NSString *name = [NSString stringWithFormat:@"发送 (%ld)张",count];
+    [_btnCamera setTitle:name forState:UIControlStateNormal];
+}
 
 - (void)cancelAnimation{
 

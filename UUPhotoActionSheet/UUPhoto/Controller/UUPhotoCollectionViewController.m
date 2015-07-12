@@ -27,6 +27,9 @@
 -(void) viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
+    
+    if (_isPreview) [[UUAssetManager sharedInstance] markFilterPreviewObject];
+    
     _isPreview = NO;
 }
 
@@ -108,16 +111,25 @@
 - (BOOL)isCheckMaxSelectedFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
     NSInteger max = [UUAssetManager sharedInstance].maxSelected;
+    
     return [UUAssetManager sharedInstance].selectdPhotos.count >= max ? YES : NO;
 }
 
 - (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected{
 
-    if (selected) {
+    if (_isPreview) {
         
-        [[UUAssetManager sharedInstance] addObjectWithIndex:index];
+        index = [[UUAssetManager sharedInstance] markPreviewObjectWithIndex:index selecte:selected];
         
-    }else [[UUAssetManager sharedInstance] removeObjectWithIndex:index];
+    }else{
+    
+        if (selected) {
+            
+            [[UUAssetManager sharedInstance] addObjectWithIndex:index];
+            
+        }else [[UUAssetManager sharedInstance] removeObjectWithIndex:index];
+    }
+    
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
     
@@ -126,27 +138,22 @@
 
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    if (_isPreview) {
-    
-        return [[UUAssetManager sharedInstance] getImagePreviewAtIndex:index type:2];
-    }
+    if (_isPreview) return [[UUAssetManager sharedInstance] getImagePreviewAtIndex:index type:2];
     
     return [[UUAssetManager sharedInstance] getImageAtIndex:index type:2];
 }
 
 - (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    if (_isPreview) {
-        
-        return [UUAssetManager sharedInstance].selectdPhotos.count;
-    }
+    if (_isPreview) return [UUAssetManager sharedInstance].selectdPhotos.count;
     
     return [UUAssetManager sharedInstance].assetPhotos.count;
 }
 
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-//    if (_isPreview) return YES;
+    if (_isPreview) return YES;
+    
     return [[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:index];
 }
 

@@ -22,11 +22,6 @@
 - (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 
 
-@optional
-
-- (void)photoBrowser:(UUPhotoBrowserViewController *)browser didShowPage:(NSInteger)page;
-
-
 @end
 
 @interface UUPhotoBrowserViewController : UIViewController

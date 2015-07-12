@@ -127,7 +127,7 @@
 - (void)notificationUpdateSelected:(NSNotification *)note{
 
     self.lblNumOfSelect.hidden = NO;
-    NSInteger count = [UUAssetManager sharedInstance].selectdPhotos.count;
+    NSInteger count = [[UUAssetManager sharedInstance] getSelectedPhotoCount];
     if (count == 0) {
         
         self.lblNumOfSelect.hidden = YES;
