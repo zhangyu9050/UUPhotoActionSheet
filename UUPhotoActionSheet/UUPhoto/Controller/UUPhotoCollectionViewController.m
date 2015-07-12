@@ -17,11 +17,18 @@
 @property (nonatomic, strong, getter = getCollectionView) UICollectionView *collectionView;
 @property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
 
+@property (nonatomic, assign) BOOL isPreview;
 @property (nonatomic, assign) NSInteger currentPage;
 
 @end
 
 @implementation UUPhotoCollectionViewController
+
+-(void) viewWillAppear:(BOOL)animated{
+
+    _isPreview = NO;
+}
+
 - (void)viewDidLoad{
     
     [super viewDidLoad];
@@ -99,11 +106,21 @@
 
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
+    if (_isPreview) {
+    
+        return [[UUAssetManager sharedInstance] getImagePreviewAtIndex:index type:2];
+    }
+    
     return [[UUAssetManager sharedInstance] getImageAtIndex:index type:2];
 }
 
 - (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
+    if (_isPreview) {
+        
+        return [UUAssetManager sharedInstance].selectdPhotos.count;
+    }
+    
     return [UUAssetManager sharedInstance].assetPhotos.count;
 }
 
@@ -139,6 +156,7 @@
 
 - (void)onClickPreview:(id)sender{
 
+    _isPreview = YES;
     UUPhotoBrowserViewController *controller;
     controller = [[UUPhotoBrowserViewController alloc] init];
     controller.delegate = self;

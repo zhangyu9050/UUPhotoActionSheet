@@ -327,6 +327,12 @@ SHARED_SERVICE(UUAssetManager);
     return [self getImageFromAsset:(ALAsset *)_assetPhotos[nIndex] type:nType];
 }
 
+- (UIImage *)getImagePreviewAtIndex:(NSInteger)nIndex type:(NSInteger)nType
+{
+    UUWaitImage *obj = _selectdPhotos[nIndex];
+    return [self getImageFromAsset:(ALAsset *)obj.waitAsset type:nType];
+}
+
 - (ALAsset *)getAssetAtIndex:(NSInteger)nIndex
 {
     return _assetPhotos[nIndex];

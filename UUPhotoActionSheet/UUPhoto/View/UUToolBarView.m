@@ -14,8 +14,9 @@
 
 @property (nonatomic, strong, getter = getButtonSend) UIButton *btnSend;
 @property (nonatomic, strong, getter = getButtonPreview) UIButton *btnPreview;
-@property (nonatomic, strong, getter = getButtonOriginalImage) UIButton *btnOriginalImage;
+@property (nonatomic, strong, getter = getButtonOriginalImage) UIButton *btnOriginal;
 
+@property (nonatomic, strong, getter = getImageOriginal) UIImageView *imgOriginal;
 @property (nonatomic, strong, getter = getLabelNumber) UILabel *lblNumOfSelect;
 
 
@@ -48,7 +49,8 @@
 - (void)configBlackColorUI{
 
     [self addSubview:self.btnSend];
-    [self addSubview:self.btnOriginalImage];
+    [self addSubview:self.imgOriginal];
+    [self addSubview:self.btnOriginal];
     [self addSubview:self.lblNumOfSelect];
     
     self.backgroundColor = COLOR_WITH_RGB(87,87,87,.6f);
@@ -96,12 +98,27 @@
     [_btnPreview addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)onClickOriginal:(UIButton *)sender{
+
+    if (sender.tag == 1000) {
+        
+        sender.tag = 1001;
+        _imgOriginal.image = [UIImage imageNamed:@"ImageSelectedOn"];
+        
+    }else{
+        
+        sender.tag = 1000;
+        _imgOriginal.image = [UIImage imageNamed:@"ImageSelectedOff"];
+    }
+}
 
 - (void)onClickSend:(id)sender{
     
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationSendPhotos
                                                         object:nil];
 }
+
+
 
 #pragma mark - Public Methods
 
@@ -143,6 +160,7 @@
         _btnPreview.frame = CGRectMake(10, 0, 50, 50);
         [_btnPreview setTitle:@"预览" forState:UIControlStateNormal];
         [_btnPreview setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
+        _btnPreview.titleLabel.font = [UIFont systemFontOfSize:16];
         _btnPreview.backgroundColor = [UIColor clearColor];
         _btnPreview.enabled = NO;
     }
@@ -158,6 +176,7 @@
         _btnSend.frame = CGRectMake(ScreenWidth -60, 0, 50, 50);
         [_btnSend setTitle:@"发送" forState:UIControlStateNormal];
         [_btnSend setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
+        _btnSend.titleLabel.font = [UIFont systemFontOfSize:16];
         _btnSend.backgroundColor = [UIColor clearColor];
         _btnSend.enabled = NO;
         
@@ -188,15 +207,30 @@
 
 - (UIButton *)getButtonOriginalImage{
 
-    if (!_btnOriginalImage) {
+    if (!_btnOriginal) {
         
-        _btnOriginalImage = [UIButton buttonWithType:UIButtonTypeCustom];
-        _btnOriginalImage.frame = CGRectMake(10, 0, 50, 50);
-        [_btnOriginalImage setTitle:@"原图" forState:UIControlStateNormal];
-        [_btnOriginalImage setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
-        _btnOriginalImage.backgroundColor = [UIColor clearColor];
+        _btnOriginal = [UIButton buttonWithType:UIButtonTypeCustom];
+        _btnOriginal.frame = CGRectMake(25, 10, 50, 30);
+        [_btnOriginal setTitle:@"原图" forState:UIControlStateNormal];
+        [_btnOriginal setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
+        _btnOriginal.backgroundColor = [UIColor clearColor];
+        _btnOriginal.titleLabel.font = [UIFont systemFontOfSize:16];
+        _btnOriginal.tag = 1000;
+        
+        [_btnOriginal addTarget:self action:@selector(onClickOriginal:) forControlEvents:UIControlEventTouchUpInside];
     }
     
-    return _btnOriginalImage;
+    return _btnOriginal;
+}
+
+- (UIImageView *)getImageOriginal{
+
+    if (!_imgOriginal) {
+        
+        _imgOriginal = [[UIImageView alloc] initWithFrame:CGRectMake(10, 16, 18, 18)];
+        _imgOriginal.image = [UIImage imageNamed:@"ImageSelectedOff"];
+    }
+    
+    return _imgOriginal;
 }
 @end

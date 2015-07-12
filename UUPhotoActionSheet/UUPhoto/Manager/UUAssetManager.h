@@ -46,7 +46,7 @@
 - (UIImage *)getImageAtIndex:(NSInteger)nIndex type:(NSInteger)nType;
 - (ALAsset *)getAssetAtIndex:(NSInteger)nIndex;
 - (ALAssetsGroup *)getGroupAtIndex:(NSInteger)nIndex;
-
+- (UIImage *)getImagePreviewAtIndex:(NSInteger)nIndex type:(NSInteger)nType;
 
 - (void)addObjectWithIndex:(NSInteger )index;
 - (void)removeObjectWithIndex:(NSInteger )index;

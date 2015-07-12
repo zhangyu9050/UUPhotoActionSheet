@@ -177,9 +177,8 @@
         _imgSelected = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.frame) -30, 4, 26, 26)];
         _imgSelected.contentMode = UIViewContentModeScaleAspectFill;
         _imgSelected.userInteractionEnabled = YES;
-        _imgSelected.layer.cornerRadius = 13;
-        _imgSelected.layer.borderWidth = 1;
         _imgSelected.layer.masksToBounds = YES;
+        _imgSelected.layer.cornerRadius = 13;
         
         UITapGestureRecognizer* singleRecognizer;
         singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
