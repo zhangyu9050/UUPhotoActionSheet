@@ -9,6 +9,7 @@
 #import "DemoViewController.h"
 #import "UUPhotoActionSheet.h"
 #import "UUPhoto-Macros.h"
+#import "UUPhoto-Import.h"
 
 @interface DemoViewController() < UUPhotoActionSheetDelegate >
 
@@ -28,7 +29,9 @@
     _sheet = [[UUPhotoActionSheet alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)
                                              weakSuper:self];
     
+    _sheet.delegate = self;
     [self.navigationController.view addSubview:_sheet];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -41,18 +44,14 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
 
     [_sheet showAnimation];
+
 }
 
 #pragma mark - Custom Deledate
 
-- (void)imagePickerDidFinished:(UUPhotoActionSheet *)obj{
+- (void)imagePickerDidFinished:(NSArray *)obj{
 
-    
-}
-
-- (void)imagePickerDidCancel:(UUPhotoActionSheet *)obj{
-
-    
+    NSLog(@"obj count >>> %lu",(unsigned long)obj.count);
 }
 
 @end

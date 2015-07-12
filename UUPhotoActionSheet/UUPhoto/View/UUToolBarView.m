@@ -96,9 +96,11 @@
     [_btnPreview addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
 }
 
-- (void)addSendTarget:(id)target action:(SEL)action{
+
+- (void)onClickSend:(id)sender{
     
-    [_btnSend addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationSendPhotos
+                                                        object:nil];
 }
 
 #pragma mark - Public Methods
@@ -112,9 +114,11 @@
     if (count == 0) {
         
         self.lblNumOfSelect.hidden = YES;
+        _btnPreview.enabled = _btnSend.enabled = NO;
         return;
     }
-    
+
+    _btnPreview.enabled = _btnSend.enabled = YES;
     self.lblNumOfSelect.text = [NSString stringWithFormat:@"%ld",(long)count];
     self.lblNumOfSelect.transform = CGAffineTransformMakeScale(.5, .5);
     [UIView animateWithDuration:.3
@@ -140,6 +144,7 @@
         [_btnPreview setTitle:@"预览" forState:UIControlStateNormal];
         [_btnPreview setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
         _btnPreview.backgroundColor = [UIColor clearColor];
+        _btnPreview.enabled = NO;
     }
     
     return _btnPreview;
@@ -154,6 +159,9 @@
         [_btnSend setTitle:@"发送" forState:UIControlStateNormal];
         [_btnSend setTitleColor:COLOR_WITH_RGB(94,201,252,1) forState:UIControlStateNormal];
         _btnSend.backgroundColor = [UIColor clearColor];
+        _btnSend.enabled = NO;
+        
+        [_btnSend addTarget:self action:@selector(onClickSend:) forControlEvents:UIControlEventTouchUpInside];
     }
     
     return _btnSend;

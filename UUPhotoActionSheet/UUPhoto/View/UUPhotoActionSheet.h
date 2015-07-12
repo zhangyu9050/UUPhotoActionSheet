@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#define kNotificationSendPhotos @"NotificationSendPhotos"
+
 @class UUPhotoActionSheet;
 @protocol UUPhotoActionSheetDelegate < NSObject >
 
-- (void)imagePickerDidFinished:(UUPhotoActionSheet *)obj;
-
-- (void)imagePickerDidCancel:(UUPhotoActionSheet *)obj;
+- (void)imagePickerDidFinished:(NSArray *)obj;
 
 @end
 

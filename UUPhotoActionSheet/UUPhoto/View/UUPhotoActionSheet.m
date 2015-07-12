@@ -54,17 +54,31 @@
     [self.sheetView addSubview:self.btnCamera];
     [self.sheetView addSubview:self.thumbnailView];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(notificationSendPhotos:)
+                                                 name:kNotificationSendPhotos
+                                               object:nil];
 }
 
 - (void)dealloc{
 
     _weakSuper = nil;
+    
+    [[UUAssetManager sharedInstance] clearData];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - UIImagePickerController Delegate
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info{
 
+    UIImage *editedImage = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+    [_weakSuper dismissViewControllerAnimated:YES completion:^{
+    
+        [self sendImageArray:@[editedImage]];
+    }];
+    
     
 }
 
@@ -77,6 +91,14 @@
 }
 
 #pragma mark - Custom Deledate
+
+- (void)sendImageArray:(NSArray *)obj{
+
+    if (_delegate && [_delegate respondsToSelector:@selector(imagePickerDidFinished:)]) {
+        
+        [_delegate imagePickerDidFinished:obj];
+    }
+}
 
 #pragma mark - Event Response
 
@@ -95,6 +117,7 @@
     pickerImage.allowsEditing = NO;
     [_weakSuper presentViewController:pickerImage animated:YES completion:^{
         
+        [self cancelAnimation];
     }];
 
 }
@@ -106,12 +129,22 @@
     
     [_weakSuper presentViewController:naviController animated:YES completion:^{
         
+        [self cancelAnimation];
     }];
 }
 
 - (void)onClickCancel:(id)sender{
     
     [self cancelAnimation];
+}
+
+- (void)notificationSendPhotos:(NSNotification *)note{
+    
+    [_weakSuper dismissViewControllerAnimated:YES completion:^{
+        
+        [self sendImageArray:[[UUAssetManager sharedInstance] sendSelectedPhotos:2]];
+    }];
+    
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{

@@ -16,8 +16,6 @@
 
 - (instancetype)initWithBlackColor;
 
-- (void)addSendTarget:(id)target action:(SEL)action;
-
 - (void)addPreviewTarget:(id)target action:(SEL)action;
 
 @end

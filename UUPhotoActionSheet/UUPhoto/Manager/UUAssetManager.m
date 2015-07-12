@@ -337,6 +337,21 @@ SHARED_SERVICE(UUAssetManager);
     return _assetGroups[nIndex];
 }
 
+- (NSArray *)sendSelectedPhotos:(NSInteger )type{
+
+    NSMutableArray *sendArray = [NSMutableArray array];
+    for (UUWaitImage *obj in _selectdPhotos) {
+        
+        UIImage *image = [self getImageFromAsset:obj.waitAsset type:type];
+        
+        [sendArray addObject:image];
+    }
+    
+    [_selectdPhotos removeAllObjects];
+    
+    return sendArray;
+}
+
 - (void)addObjectWithIndex:(NSInteger )index{
     
     NSInteger section = _currentGroupIndex;

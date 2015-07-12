@@ -51,6 +51,8 @@
 - (void)addObjectWithIndex:(NSInteger )index;
 - (void)removeObjectWithIndex:(NSInteger )index;
 
+- (NSArray *)sendSelectedPhotos:(NSInteger )type;
+
 @end
 
 @interface UUWaitImage : NSObject

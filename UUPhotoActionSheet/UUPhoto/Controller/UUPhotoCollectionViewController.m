@@ -146,11 +146,6 @@
     [self.navigationController pushViewController:controller animated:YES];
 }
 
-- (void)onClickSend:(id)sender{
-    
-    
-}
-
 #pragma mark - Private Method
 
 - (void)scrollToSelectedItem{
@@ -216,7 +211,6 @@
         CGRect frame = CGRectMake(0, CGRectGetHeight(self.view.frame) -50, ScreenWidth, 50);
         _toolBarView = [[UUToolBarView alloc] initWithWhiteColor];
         [_toolBarView addPreviewTarget:self action:@selector(onClickPreview:)];
-        [_toolBarView addSendTarget:self action:@selector(onClickSend:)];
         _toolBarView.frame = frame;
     }
     
