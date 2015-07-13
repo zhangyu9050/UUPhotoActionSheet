@@ -64,7 +64,7 @@
     
     [self configBarButtonItem];
     [self updateVisiblePageView];
-    if ([self currentPage] > 0) [self jumpToPageAtIndex:[self currentPage] animated:NO];
+    if ([self jumpPage] > 0) [self jumpToPageAtIndex:[self jumpPage] animated:NO];
         
 }
 
@@ -121,11 +121,11 @@
     }
 }
 
-- (NSInteger )currentPage{
+- (NSInteger )jumpPage{
 
-    if (_delegate && [_delegate respondsToSelector:@selector(currentIndexFromPhotoBrowser:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(jumpIndexFromPhotoBrowser:)]) {
         
-        return [_delegate currentIndexFromPhotoBrowser:self];
+        return [_delegate jumpIndexFromPhotoBrowser:self];
     }
     
     return 0;
@@ -169,9 +169,9 @@
     }
     
     
-    if (_delegate && [_delegate respondsToSelector:@selector(numberOfPhotosWithIndex:selectedChanged:)]) {
+    if (_delegate && [_delegate respondsToSelector:@selector(displayImageWithIndex:selectedChanged:)]) {
         
-        return [_delegate numberOfPhotosWithIndex:sender.tag selectedChanged:sender.selected];
+        return [_delegate displayImageWithIndex:sender.tag selectedChanged:sender.selected];
     }
 }
 

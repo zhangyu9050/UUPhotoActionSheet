@@ -30,16 +30,13 @@
 
 - (void)dealloc{
 
-    _singleTap = nil;
     _imgPhoto.image = nil;
+    _singleTap = nil;
     _imgPhoto = nil;
 }
 
 - (void)configUI{
-    
-//    self.layer.borderWidth = 2;
-//    self.layer.borderColor = [UIColor redColor].CGColor;
-    
+
     self.backgroundColor = [UIColor blackColor];
     self.delegate = self;
     self.showsHorizontalScrollIndicator = NO;

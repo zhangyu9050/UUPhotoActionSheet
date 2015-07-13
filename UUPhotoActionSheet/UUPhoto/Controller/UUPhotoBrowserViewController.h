@@ -10,17 +10,20 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 
 @class UUPhotoBrowserViewController;
+
 @protocol UUPhotoBrowserDelegate < NSObject >
 
 - (UIImage *)displayImageWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
+- (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
+- (NSInteger)jumpIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
+
 - (BOOL)isSelectedPhotosWithIndex:(NSInteger)index fromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
-- (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected;
 
 - (BOOL)isCheckMaxSelectedFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
 
-- (NSInteger)numberOfPhotosFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
-- (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser;
-
+- (void)displayImageWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected;
 
 @end
 

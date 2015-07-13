@@ -18,7 +18,7 @@
 @property (nonatomic, strong, getter = getToolBarView) UUToolBarView *toolBarView;
 
 @property (nonatomic, assign) BOOL isPreview;
-@property (nonatomic, assign) NSInteger currentPage;
+@property (nonatomic, assign) NSInteger jumpPage;
 
 @end
 
@@ -97,7 +97,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    _currentPage = indexPath.row;
+    _jumpPage = indexPath.row;
     
     UUPhotoBrowserViewController *controller;
     controller = [[UUPhotoBrowserViewController alloc] init];
@@ -126,7 +126,7 @@
     return [UUAssetManager sharedInstance].selectdPhotos.count >= max ? YES : NO;
 }
 
-- (void)numberOfPhotosWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected{
+- (void)displayImageWithIndex:(NSUInteger)index selectedChanged:(BOOL)selected{
 
     if (_isPreview) {
         
@@ -168,9 +168,9 @@
     return [[UUAssetManager sharedInstance] isSelectdPhotosWithIndex:index];
 }
 
-- (NSInteger)currentIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
+- (NSInteger)jumpIndexFromPhotoBrowser:(UUPhotoBrowserViewController *)browser{
 
-    return _currentPage;
+    return _jumpPage;
 }
 
 #pragma mark - Event Response
@@ -185,8 +185,8 @@
 
 - (void)onClickPreview:(id)sender{
 
+    _jumpPage = 0;
     _isPreview = YES;
-    _currentPage = 0;
     UUPhotoBrowserViewController *controller;
     controller = [[UUPhotoBrowserViewController alloc] init];
     controller.delegate = self;

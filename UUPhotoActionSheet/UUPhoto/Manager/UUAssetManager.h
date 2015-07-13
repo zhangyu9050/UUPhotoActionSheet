@@ -17,10 +17,15 @@
 
 @interface UUAssetManager : NSObject
 
+//可选最大数
 @property (nonatomic, assign) NSInteger maxSelected;
+
 @property (nonatomic, assign) NSInteger currentGroupIndex;
 
+//当前Group图片数组
 @property (nonatomic, strong) NSMutableArray  *assetPhotos;
+
+//选中对象数组
 @property (nonatomic, strong) NSMutableArray  *selectdPhotos;
 
 + (instancetype)sharedInstance;
