@@ -29,11 +29,10 @@
 
 @implementation UUPhotoActionSheet
 
-- (instancetype)initWithFrame:(CGRect)frame
-                  maxSelected:(NSInteger )maxSelected
-                    weakSuper:(id)weakSuper{
+- (instancetype)initWithMaxSelected:(NSInteger )maxSelected
+                          weakSuper:(id)weakSuper{
     
-    if (self = [super initWithFrame:frame]) {
+    if (self = [super init]) {
         
         [self configUI];
         _weakSuper = weakSuper;
@@ -48,6 +47,7 @@
 - (void)configUI{
     
     self.alpha = 0;
+    [self setFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     
     [self addSubview:self.sheetView];

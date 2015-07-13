@@ -61,10 +61,7 @@
         self.zoomScale = 1;
         self.contentSize = CGSizeMake(0, 0);
         
-        // Get image from browser as it handles ordering of fetching
-        
         if (img) {
-            
             
             // Set image
             _imgPhoto.image = img;
@@ -78,7 +75,6 @@
             
             // Set zoom to minimum zoom
             [self setMaxMinZoomScalesForCurrentBounds];
-            
         }
     
         [self setNeedsLayout];
@@ -115,7 +111,6 @@
     // Center
     if (!CGRectEqualToRect(_imgPhoto.frame, frameToCenter))
         _imgPhoto.frame = frameToCenter;
-    
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds {
@@ -176,7 +171,9 @@
 }
 
 - (CGFloat)initialZoomScaleWithMinScale {
+    
     CGFloat zoomScale = self.minimumZoomScale;
+    
     if (_imgPhoto) {
         // Zoom image to fill if the aspect ratios are fairly similar
         CGSize boundsSize = self.bounds.size;
@@ -196,14 +193,17 @@
 }
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
+    
     return _imgPhoto;
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view {
+    
     self.scrollEnabled = YES; // reset
 }
 
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
+    
     [self setNeedsLayout];
     [self layoutIfNeeded];
 }
@@ -212,8 +212,6 @@
     
     [_singleTap addTarget:target action:action];
 }
-
-#pragma mark - Private Methods
 
 #pragma mark - Getters And Setters
 

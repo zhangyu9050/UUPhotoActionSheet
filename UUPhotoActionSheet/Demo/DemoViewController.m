@@ -26,9 +26,8 @@
     
     self.navigationItem.title = @"UUPhotoActionSheet";
     
-    _sheet = [[UUPhotoActionSheet alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)
-                                           maxSelected:9
-                                             weakSuper:self];
+    _sheet = [[UUPhotoActionSheet alloc] initWithMaxSelected:9
+                                                   weakSuper:self];
     
     _sheet.delegate = self;
     [self.navigationController.view addSubview:_sheet];

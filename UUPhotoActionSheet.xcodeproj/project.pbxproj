@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2A37ED501B4FDD8A0083B5FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37ED4F1B4FDD8A0083B5FE /* main.m */; };
 		2A37ED531B4FDD8A0083B5FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37ED521B4FDD8A0083B5FE /* AppDelegate.m */; };
-		2A37ED561B4FDD8A0083B5FE /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37ED551B4FDD8A0083B5FE /* ViewController.m */; };
 		2A37ED591B4FDD8A0083B5FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A37ED571B4FDD8A0083B5FE /* Main.storyboard */; };
 		2A37ED5B1B4FDD8A0083B5FE /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A37ED5A1B4FDD8A0083B5FE /* Images.xcassets */; };
 		2A37ED5E1B4FDD8A0083B5FE /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37ED5C1B4FDD8A0083B5FE /* LaunchScreen.xib */; };
@@ -44,8 +43,6 @@
 		2A37ED4F1B4FDD8A0083B5FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37ED511B4FDD8A0083B5FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2A37ED521B4FDD8A0083B5FE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		2A37ED541B4FDD8A0083B5FE /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		2A37ED551B4FDD8A0083B5FE /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		2A37ED581B4FDD8A0083B5FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2A37ED5A1B4FDD8A0083B5FE /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		2A37ED5D1B4FDD8A0083B5FE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -121,8 +118,6 @@
 				2A37ED741B4FDE5A0083B5FE /* UUPhoto */,
 				2A37ED511B4FDD8A0083B5FE /* AppDelegate.h */,
 				2A37ED521B4FDD8A0083B5FE /* AppDelegate.m */,
-				2A37ED541B4FDD8A0083B5FE /* ViewController.h */,
-				2A37ED551B4FDD8A0083B5FE /* ViewController.m */,
 				2A37ED571B4FDD8A0083B5FE /* Main.storyboard */,
 				2A37ED5A1B4FDD8A0083B5FE /* Images.xcassets */,
 				2A37ED5C1B4FDD8A0083B5FE /* LaunchScreen.xib */,
@@ -340,7 +335,6 @@
 				2A37ED9E1B4FED790083B5FE /* UUThumbnailCollectionCell.m in Sources */,
 				2A37EDA11B4FFB490083B5FE /* UUPhotoCollectionViewController.m in Sources */,
 				2A37ED9B1B4FEA2E0083B5FE /* UUAssetManager.m in Sources */,
-				2A37ED561B4FDD8A0083B5FE /* ViewController.m in Sources */,
 				2A37ED531B4FDD8A0083B5FE /* AppDelegate.m in Sources */,
 				2A37EDA71B4FFDB20083B5FE /* UUPhotoGroupViewController.m in Sources */,
 				2A37ED841B4FDE7B0083B5FE /* UUPhotoActionSheet.m in Sources */,
