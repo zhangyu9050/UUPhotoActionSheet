@@ -112,6 +112,17 @@
 
     NSInteger max = [UUAssetManager sharedInstance].maxSelected;
     
+    if ([UUAssetManager sharedInstance].selectdPhotos.count >= max) {
+        
+        UIAlertView *alter = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"您最多只能选择%d张图片",(int)max]
+                                                        message:nil
+                                                       delegate:nil
+                                              cancelButtonTitle:nil
+                                              otherButtonTitles:@"确认", nil];
+        
+        [alter show];
+    }
+    
     return [UUAssetManager sharedInstance].selectdPhotos.count >= max ? YES : NO;
 }
 
