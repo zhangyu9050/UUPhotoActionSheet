@@ -200,9 +200,14 @@
     
     NSInteger index = [[UUAssetManager sharedInstance] currentGroupFirstIndex];
     
-    [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
-                            atScrollPosition:UICollectionViewScrollPositionCenteredVertically
-                                    animated:NO];
+    if (index > 0) {
+
+        [_collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:index inSection:0]
+                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
+                                        animated:NO];
+
+    }
+    
 }
 
 #pragma mark - Getters And Setters
