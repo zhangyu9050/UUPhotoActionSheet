@@ -80,7 +80,7 @@ SHARED_SERVICE(UUAssetManager);
             return;
         }
         
-        [_assetPhotos addObject:alPhoto];
+        [_assetPhotos insertObject:alPhoto atIndex:0];
     }];
 }
 

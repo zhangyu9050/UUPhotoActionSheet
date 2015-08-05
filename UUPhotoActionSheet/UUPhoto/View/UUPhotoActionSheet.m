@@ -181,6 +181,7 @@
 
 - (void)showAnimation{
     
+    _btnCamera.selected = YES;
     [_thumbnailView reloadView];
     [_btnCamera setTitle:@"拍照" forState:UIControlStateNormal];
     
